@@ -5,7 +5,12 @@ def main():
         name : str
         maxHp : int (maximo de vida)
         moves : list (todos os movimentos do pokemon, desde de cura até ataques)
-        damage : int (ataque a ser sofrido)
+        atk : int (atributo de ataque)
+        defense : int (atributo de defesa)
+        spDefense : int (atributo de defesa especial)
+        spAtk : int (atributo de ataque especial)
+        speed : int (atributo de velocidade)
+        pokeSprite : str (caminho para o sprite do pokemon)
         '''
         def __init__(self, name, moves, maxHp, atk, defense, spDefense, spAtk, speed, pokeSprite):
             self.__name = name
