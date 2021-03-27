@@ -7,47 +7,75 @@ def main():
         moves : list (todos os movimentos do pokemon, desde de cura até ataques)
         damage : int (ataque a ser sofrido)
         '''
-        def __init__(self, name, moves, maxHp):
+        def __init__(self, name, moves, maxHp, atk, defense, spDefense, spAtk, speed, pokeSprite):
             self.__name = name
-            self.__maxHp = maxHp
             self.__moves = moves
-            self.__damage = 0
-            self.__lifePercent = 100
+            self.__maxHp = maxHp
+            self.__atk = atk
+            self.__defense = defense
+            self.__spDefense = spDefense
+            self.__spAtk = spAtk
+            self._speed = speed
+            self.__pokeSprite = pokeSprite
+            self.__currentHp = maxHp
+            self.__hpPercent = 100
 
         @property
         def name(self):
             return self.__name
+        
         @property
         def maxHp(self):
-            return self.__hp
+            return self.__maxHp
+        
         @property
         def moves(self):
-            return self.__moves.copy()
-        @property
-        def damage(self):
-            return self.__damage
-        @property
-        def actualHp(self):
-            return self.__maxHp - self.__damage
-        @property
-        def lifePercent(self):
-            return self.__lifePercent
+            return self.__moves
         
-        def hitDamage(self, hitDamage):#dano recebido por ataque
-            if self.__damage + hitDamage < self.__maxHp:
-                self.__damage += hitDamage
-                self.__lifePercent = (self.__damage * 100)/self.__maxHp
-            else:
-                self.__damage = self.__maxHp
+        @property
+        def atk(self):
+            return self.__atk
+        
+        @property
+        def defense(self):
+            return self.__defense
+
+        @property
+        def spDefense(self):
+            return self.__spDefense
+
+        @property
+        def spAtk(self):
+            return self.__spAtk
+
+        @property
+        def speed(self):
+            return self.__speed
+
+        @property
+        def pokeSprite(self):
+            return self.__pokeSprite
+        
+        @property
+        def currentHp(self):
+            return self.__currentHp
+        
+        @property
+        def hpPercent(self):
+            return self.__hpPercent
+
+        @currentHp.setter
+        def currentHp(self, novoValor):
+            self.__currentHp = novoValor
+            self.__hpPercent = (100 * self.__currentHp)/self.__maxHp
+        
+        @hpPercent.setter
+        def hpPercent(self, novoValor):
+            self.__lifePercent = novoValor
+            self.__currentHp = (self.__hpPercent * self.__maxHp)/100
         
         def isFainted(self):#verifica se o pokemon morreu
-            return self.__damage >= self.__maxHp
-        
-        def hitPokemon(self, moveName, enemy):
-            for move in self.moves:
-                if move.name == moveName:break
-            iscritical = move.isCritical()
-            extraDamage = 2 if iscritical else 1
-            enemy.hitDamage(extraDamage * move.damage)
+            return self.__hpPercent <= 0
+
 if __name__ == '__main__':
     main()

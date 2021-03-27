@@ -1,6 +1,6 @@
 import pygame
 import random
-from Attack import attack
+from Moves import moves
 from Pokemon import pokemon
 from PokeList import marco,marcoMoves, jorge,jorgeMoves
 
