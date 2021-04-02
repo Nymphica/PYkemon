@@ -20,7 +20,7 @@ def main():
             self.__defense = defense
             self.__spDefense = spDefense
             self.__spAtk = spAtk
-            self._speed = speed
+            self.__speed = speed
             self.__pokeSprite = pokeSprite
             self.__currentHp = maxHp
             self.__hpPercent = 100

@@ -1,5 +1,4 @@
-from Attack import attack
-from Pokemon import pokemon
+from Pokemon import *
 
 #Marco
 marcoMoves = [

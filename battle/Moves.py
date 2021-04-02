@@ -1,13 +1,14 @@
 def main():
 
     class moves:
-        def __init__(self, name, power, moveType, accuracy, pp): #nome, poder, tipo, accuracy, pp
+        def __init__(self, name, power, moveType, accuracy, pp, classe): #nome, poder, tipo, accuracy, pp, classe(fisico, especial ou status)
             self.__name = name
             self.__power = power
             self.__moveType = moveType
             self.__accuracy = accuracy
             self.__pp = pp
             self.__currentPP = self.__pp
+            self.__classe = classe
         
         @property #getters para retornar valores das variaveis
         def name(self):
@@ -32,6 +33,10 @@ def main():
         @property
         def currentPP(self):
             return self.__currentPP
+
+        @property
+        def classe(self):
+            return self.__classe
 
         @currentPP.setter
         def currentPP(self, novoValor):
