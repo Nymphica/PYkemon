@@ -1,0 +1,29 @@
+03/04 Nymphica
+
+#criação do arquivo de relatório, para adicionar um relátorio adicione um paragráfo
+acima, de forma que o relatório mais recente fique por cima. livre pra deixar TUDO
+resgitrado, até as sofrências.
+
+#Organização dos displays, especificação das imagens dos pokemons com front e back
+
+#finalmente consegui fazer a transação entre as telas =')
+
+#mudei o pygame por pg em alguns arquivos tem um aviso na primeira linha ;)
+
+#também consegui fazer tudo rodar pela main =')
+
+#1º tela - MENU | 5 pokemons para escolha, o gastly ta ali porque é o unico que eu 
+consegui pensar que não fosse representado pelas outras cores XD O nome do pokemon
+é printado no terminal
+
+#2º tela - NAMEIT | Não é necessária, só fiz por capricho porque gosto de dar nome 
+aos bicinho XD mas se quiser podemos tirar, depois de dar enter o nome é printado
+no terminal
+
+#3º tela - BATTLE | Com 4 opções :
+1- Fight = por enquanto só print no terminal
+2- Pokemon = por enquanto volta a tela de escolha do pokemon
+3- Bag = só print
+4- Run = outro inimigo aleatório
+
+Por hoje é só p pp pessoal! 

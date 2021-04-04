@@ -1,18 +1,3 @@
-from Pokemon import *
-
-#Marco
-marcoMoves = [
-        attack("feedback", 10, 0.3),
-        attack("mutado", 25, 0.5),
-        attack("aula4", 50, 0.3)
-    ]
-marco = pokemon("Marco", marcoMoves, 300)
-
-#Jorge
-jorgeMoves = [
-        attack("armario", 10, 0.3),
-        attack("jamboard", 25, 0.5),
-        attack("desespero.py", 50, 0.3)
-    ]
-
-jorge = pokemon("Jorge", jorgeMoves, 300)
+#this list is used in the battle display to get a random pokemon img
+#não se preocupa que eu salvei a pokelista do jorge vs marco XD
+pokelistIMG=["PIKACHU", "CHARMANDER", "BULBASAUR", "SQUIRTLE", "GASTLY"]
