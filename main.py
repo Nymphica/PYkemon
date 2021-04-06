@@ -3,7 +3,7 @@ from musica import Musica
 from displays.allDisplays import *
 pygame.init()
 
-theme = 'sprites\AfireRedAbertura.wav'#coloca o tema de abertura para tocar
+theme = 'musica\AfireRedAbertura.wav'#coloca o tema de abertura para tocar
 Musica.musica(theme, 0.9)
 
 pygame.joystick.init()
@@ -23,7 +23,7 @@ while running:
         choosed_pokemon, display = draw_menu()
 
     elif display == "NAMEIT":
-        display = draw_nameIt(choosed_pokemon)
+        display, pokeName = draw_nameIt(choosed_pokemon)
         
     elif display == "BATTLE":
-        display = draw_battle(choosed_pokemon)
+        display = draw_battle(choosed_pokemon, pokeName)

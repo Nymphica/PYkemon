@@ -20,7 +20,7 @@ class pokemon:
         self.__spDefense = spDefense
         self.__spAtk = spAtk
         self.__speed = speed
-        self.__pokeSprite = ("sprites\pokemon\Costas\{}.png".format(self.__name), "sprites\pokemon\Frente\{}.png".format(self.__name))
+        self.__pokeSprite = (f"sprites\pokemon\Back\{self.__name}.png", f"sprites\pokemon\Front\{self.__name}.png")
         self.__currentHp = maxHp
         self.__hpPercent = 100
         self.__pokeType = pokeType

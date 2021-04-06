@@ -58,4 +58,4 @@ def draw_nameIt(player1):
         icon = pg.image.load('icon.png')# window icon
         pg.display.set_icon(icon)
         
-    return("BATTLE")
+    return("BATTLE", text)

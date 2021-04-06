@@ -3,8 +3,10 @@ import pygame as pg
 from battle.pokemonList import *
 from displays.button import *
 from random import randint #intreger random
+from displays.img import image
+from time import sleep
 
-def draw_battle(player1):
+def draw_battle(player1, pokeName):
     pg.init()
 
     bg_color = (55, 55, 55) #background color
@@ -17,45 +19,47 @@ def draw_battle(player1):
     font = pg.font.Font('displays/font.ttf', height // 30) 
     
     #background
-    bg = pg.image.load('displays\imgs\FundoPokemon.png')
+    bg = pg.image.load('sprites/battle_bg\FundoPokemon.png')
     bg = pg.transform.scale(bg, (800, 450))
 
     #pokemon status bar
-    pp_bar = pg.image.load('displays\imgs\pp_bar.png')
+    pp_bar = pg.image.load('sprites/battle_bg\pp_bar.png')
     pp_bar = pg.transform.scale(pp_bar, (800,150))
 
     #options FIGHT/RUN/ETC bar
-    options = pg.image.load('displays\imgs\Fgt_options.png')
+    options = pg.image.load('sprites/battle_bg\Fgt_options.png')
     options = pg.transform.scale(options, (400,150))
 
     #text bar
-    text_bar = pg.image.load('displays\imgs\Text_bar.png')
+    text_bar = pg.image.load('sprites/battle_bg\Text_bar.png')
     text_bar = pg.transform.scale(text_bar, (800,150))
 
     #Second pokemon bar
-    bar_2 = pg.image.load('displays\imgs\Bar_2.png')
+    bar_2 = pg.image.load('sprites/battle_bg\Bar_2.png')
     bar_2 = pg.transform.scale(bar_2, (360,160))
 
     #first pokemon bar
-    bar_1 = pg.image.load('displays\imgs\Bar_1.png')
+    bar_1 = pg.image.load('sprites/battle_bg\Bar_1.png')
     bar_1 = pg.transform.scale(bar_1, (360,140))
 
     #grey bar
-    gry_bar = pg.image.load('displays\imgs\gry_bar.png')
+    gry_bar = pg.image.load('sprites/battle_bg\gry_bar.png')
     gry_bar = pg.transform.scale(gry_bar, (172,15))
 
     #red bar
-    red_bar = pg.image.load('displays\imgs\Red_bar.png')
+    red_bar = pg.image.load('sprites/battle_bg\Red_bar.png')
     red_bar = pg.transform.scale(red_bar, (166,13))
 
     #enemy
     enemy = pokemonList[randint(0, len(pokemonList) - 1)]
-    enemyIMG = pg.image.load(enemy.pokeSprite[1])#(f'displays/imgs/front/{pokelistIMG[randint(0,3)]}.png')
-    enemyIMG = pg.transform.scale(enemyIMG, (330,330))
+    enemyIMG = pg.image.load(enemy.pokeSprite[1])
+    pos, scale=(430, 0), (330,330)
+    enemyIMG = image("enemy",enemyIMG, pos, scale, screen)
 
     #player
     player = pg.image.load(player1.pokeSprite[0])
-    player = pg.transform.scale(player, (290,290))
+    pos, scale= (0, 160), (290,290)
+    player = image("player", player, pos, scale, screen)
 
     # general button configuration:
     colors = ((55, 55, 55), (0, 0, 0))
@@ -85,14 +89,25 @@ def draw_battle(player1):
     positions = [position1, position2, position3, position4] #buttons positions list
     cursor = 0
 
+    screen = pg.display.set_mode((800, 600)) #screen size
+    screen.fill((255,255,255)) #Screen color background
+
+    do_text = font.render(f'WHAT WILL {pokeName} DO?',True, (255,255,255))
+
+    icon = pg.image.load('icon.png')# window icon
+    pg.display.set_icon(icon)
+
     running=True
     while running:
-        screen = pg.display.set_mode((800, 600)) #screen size
-        screen.fill((255,255,255)) #Screen color background
+
+        if enemyIMG.is_red:
+            sleep(0.001)
+            enemyIMG.back_img()
+
 
         screen.blit( bg, (0,0) )
-        screen.blit( enemyIMG, (430,0) )
-        screen.blit( player, (0,160) )
+        screen.blit( enemyIMG.img, enemyIMG.pos )
+        screen.blit( player.img, player.pos )
         screen.blit( pp_bar, (0,450) )
         screen.blit( bar_2, (420,280) )
         screen.blit( bar_1, (10,30) )
@@ -101,6 +116,7 @@ def draw_battle(player1):
         screen.blit( gry_bar, (153,108) )
         screen.blit( red_bar, (587,358) )
 
+        screen.blit(do_text, (40,510))
 
 
         # defining cursor position:
@@ -122,9 +138,6 @@ def draw_battle(player1):
             screen, (55, 55, 55),# cursor color
             [(x0c, y0c), (x1c, (y0c + y1c) // 2), (x0c, y1c)]
         )
-
-        icon = pg.image.load('icon.png')# window icon
-        pg.display.set_icon(icon)
 
         for ev in pg.event.get():
             if ev.type == pg.QUIT:
@@ -161,9 +174,18 @@ def draw_battle(player1):
                                     return("MENU") # (temporario) return to menu to choose other pokemon
 
                                 elif choosed_action == "RUN": #if run choose other enemy
-                                    enemy = pg.image.load(f'displays/imgs/front/{pokelistIMG[randint(0,3)]}.png')
-                                    enemy = pg.transform.scale(enemy, (330,330))
-                                
+                                    enemy = pokemonList[randint(0, len(pokemonList) - 1)]
+                                    newEnemyIMG = pg.image.load(enemy.pokeSprite[1])#(f'displays/imgs/front/{pokelistIMG[randint(0,3)]}.png')
+                                    enemyIMG.img = newEnemyIMG
+
+                                elif choosed_action == "FIGHT":
+                                    enemyIMG.turn_red() #turn enemy red
+                                    screen.blit( bar_2, (420,280) ) #temporario
+                                    screen.blit( red_bar, (587,358) )#temporario
+                                    player.shake() #shake player img
+
+
+
                                 running_menu = False
                                 break
         pg.display.flip()

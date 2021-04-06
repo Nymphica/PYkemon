@@ -23,7 +23,7 @@ def draw_menu():
     pokeSprites = []
     labels = []
     for i in range(len(pokemonList)):
-        position = (origin[0] - button_dim[0]//2, origin[1] + button_dim[1] * (i - 2))
+        position = (origin[0] - button_dim[0]//2, origin[1] + button_dim[1] * (i - 3))
         positions.append(position)
         label = pokemonList[i].name
         labels.append(label)
@@ -32,50 +32,14 @@ def draw_menu():
         pokemon = pg.transform.scale(pokemon, (350, 350))
         pokeSprites.append(pokemon)
 
-    '''teste
-    # creating first button:
-    position1 = (origin[0] - button_dim[0] // 2, origin[1] - button_dim[1] * 2)
-    label1 = "PIKACHU"
-    button1 = Button(label1, button_dim, position1, colors)
-
-    # creating second button:
-    position2 = (origin[0] - button_dim[0] // 2, origin[1] - button_dim[1])
-    label2 = "CHARMANDER"
-    button2 = Button(label2, button_dim, position2, colors)
-
-    # creating third button:
-    position3 = (origin[0] - button_dim[0] // 2, origin[1])
-    label3 = "BULBASAUR"
-    button3 = Button(label3, button_dim, position3, colors)
-
-    # creating fourth button:
-    position4 = (origin[0] - button_dim[0] // 2, origin[1] + button_dim[1])
-    label4 = "SQUIRTLE"
-    button4 = Button(label4, button_dim, position4, colors)
-
-    # creating fifth button:
-    position5 = (origin[0] - button_dim[0] // 2, origin[1] + button_dim[1]*2)
-    label5 = "GASTLY"
-    button5 = Button(label5, button_dim, position5, colors)'''
-
-    #buttons = [button1, button2, button3, button4, button5] #buttons list
-    #positions = [position1, position2, position3, position4, position5] #buttons positions list
     cursor = 0
-
-    pikachu = pg.image.load('displays/imgs/front/PIKACHU.png')
-    pikachu = pg.transform.scale(pikachu, (350,350))
-    charmander = pg.image.load('displays/imgs/front/CHARMANDER.png')
-    charmander = pg.transform.scale(charmander, (350,350))
-    bulbasaur = pg.image.load('displays/imgs/front/BULBASAUR.png')
-    bulbasaur = pg.transform.scale(bulbasaur, (350,350))
-    squirtle = pg.image.load('displays/imgs/front/SQUIRTLE.png')
-    squirtle = pg.transform.scale(squirtle, (350,350))
-    gastly = pg.image.load('displays/imgs/front/GASTLY.png')
-    gastly = pg.transform.scale(gastly, (350,350))
 
     choose_text = font.render('Choose your Pokemon:',True, (255,255,255))
 
     player1 = "NONE"
+
+    icon = pg.image.load('icon.png')# window icon
+    pg.display.set_icon(icon)
 
     running_menu=True
 
@@ -121,31 +85,22 @@ def draw_menu():
 
         screen.fill(bg_color) #filling background
 
-        screen.blit(choose_text, (10,100))
+        screen.blit(choose_text, (10,50))
 
         for button in buttons:
             if cursor_position in button:
                 indButton = labels.index(button.label)
-                screen.blit(pokeSprites[indButton], (450, 125))
-                '''if button.label == "PIKACHU":
-                    button.alternative_color = (255, 215, 0)
-                    screen.blit( pikachu, (450,125) )
-                
-                elif button.label == "CHARMANDER":
-                    button.alternative_color = (255, 0, 0)
-                    screen.blit( charmander, (450,125) )
-
-                elif button.label == "BULBASAUR":
-                    button.alternative_color = (0, 255, 0)
-                    screen.blit( bulbasaur, (450,125) )
-
-                elif button.label == "SQUIRTLE":
-                    button.alternative_color = (0, 0, 255)
-                    screen.blit( squirtle, (450,125) )
-                    
-                else: #gastly
-                    button.alternative_color = (255, 0, 255)
-                    screen.blit(gastly, (450,125) )'''
+                screen.blit(pokeSprites[indButton], (440, 70))
+                for poke in pokemonList:
+                    if button.label == poke.name:
+                        if poke.pokeType == 'fire':
+                            button.alternative_color = (255, 0, 0)
+                        elif poke.pokeType == 'water':
+                            button.alternative_color = (0, 0, 255)
+                        elif poke.pokeType == 'leaf':
+                            button.alternative_color = (0, 255, 0)
+                        elif poke.pokeType == 'eletric':
+                            button.alternative_color = (255, 215, 0)
                 
                 draw_button(screen, button, bg_color, font, True)
             else:
@@ -160,5 +115,3 @@ def draw_menu():
             screen, (255, 255, 255),
             [(x0c, y0c), (x1c, (y0c + y1c) // 2), (x0c, y1c)]
         )
-        icon = pg.image.load('icon.png')# window icon
-        pg.display.set_icon(icon)

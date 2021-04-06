@@ -1,7 +1,6 @@
 import pygame
 import random
 from Moves import *
-from PokeList import marco,marcoMoves, jorge,jorgeMoves
 
 
 def main():
