@@ -1,9 +1,10 @@
 import pygame as pg
-from battle.PokeList import pokelistIMG
+#from battle.PokeList import pokelistIMG
+from battle.pokemonList import *
 from displays.button import *
 from random import randint #intreger random
 
-def draw_battle(choosed_pokemon):
+def draw_battle(player1):
     pg.init()
 
     bg_color = (55, 55, 55) #background color
@@ -48,11 +49,12 @@ def draw_battle(choosed_pokemon):
     red_bar = pg.transform.scale(red_bar, (166,13))
 
     #enemy
-    enemy = pg.image.load(f'displays/imgs/front/{pokelistIMG[randint(0,3)]}.png')
-    enemy = pg.transform.scale(enemy, (330,330))
+    enemy = pokemonList[randint(0, len(pokemonList) - 1)]
+    enemyIMG = pg.image.load(enemy.pokeSprite[1])#(f'displays/imgs/front/{pokelistIMG[randint(0,3)]}.png')
+    enemyIMG = pg.transform.scale(enemyIMG, (330,330))
 
     #player
-    player = pg.image.load(f'displays/imgs/back/{choosed_pokemon}.png')
+    player = pg.image.load(player1.pokeSprite[0])
     player = pg.transform.scale(player, (290,290))
 
     # general button configuration:
@@ -60,9 +62,9 @@ def draw_battle(choosed_pokemon):
     button_dim = (width // 5 + 15, height // 15)
     origin = (width-button_dim[0]*1.7, height-36)
 
-    # creating first button FIGTH:
+    # creating first button FIGHT:
     position1 = (origin[0] - button_dim[0] // 2, origin[1] - button_dim[1] * 2)
-    button1 = Button("FIGTH", button_dim, position1, colors)
+    button1 = Button("FIGHT", button_dim, position1, colors)
 
     # creating second button POKEMON:
     position2 = (origin[0] - button_dim[0] // 2, origin[1] - button_dim[1] + 10)
@@ -89,6 +91,8 @@ def draw_battle(choosed_pokemon):
         screen.fill((255,255,255)) #Screen color background
 
         screen.blit( bg, (0,0) )
+        screen.blit( enemyIMG, (430,0) )
+        screen.blit( player, (0,160) )
         screen.blit( pp_bar, (0,450) )
         screen.blit( bar_2, (420,280) )
         screen.blit( bar_1, (10,30) )
@@ -96,8 +100,7 @@ def draw_battle(choosed_pokemon):
         screen.blit( options, (400,450) )
         screen.blit( gry_bar, (153,108) )
         screen.blit( red_bar, (587,358) )
-        screen.blit( enemy, (430,0) )
-        screen.blit( player, (0,160) )
+
 
 
         # defining cursor position:

@@ -1,7 +1,7 @@
 # don´t forget that pg is pygame
 import pygame as pg
 
-def draw_nameIt(choosed_pokemon):
+def draw_nameIt(player1):
 
     bg_color = (55, 55, 55) #background color
     res = (800, 600) #resolution
@@ -23,7 +23,7 @@ def draw_nameIt(choosed_pokemon):
     while running_name:
         screen.fill(bg_color) #filling background
 
-        player = pg.image.load(f'displays/imgs/front/{choosed_pokemon}.png') #the img of the choosed pokemon
+        player = pg.image.load(player1.pokeSprite[1]) #the img of the choosed pokemon
         player = pg.transform.scale(player, (290,290))
 
         for event in pg.event.get():

@@ -1,5 +1,6 @@
 import pygame as pg
 from displays.button import Button, draw_button
+from battle.pokemonList import *
 
 def draw_menu():
     bg_color = (55, 55, 55) #background color
@@ -17,6 +18,21 @@ def draw_menu():
     button_dim = (width // 2, height // 10)
     origin = (width //4, height //2)
 
+    buttons = []
+    positions = []
+    pokeSprites = []
+    labels = []
+    for i in range(len(pokemonList)):
+        position = (origin[0] - button_dim[0]//2, origin[1] + button_dim[1] * (i - 2))
+        positions.append(position)
+        label = pokemonList[i].name
+        labels.append(label)
+        buttons.append(Button(label, button_dim, position, colors))
+        pokemon = pg.image.load(pokemonList[i].pokeSprite[1])
+        pokemon = pg.transform.scale(pokemon, (350, 350))
+        pokeSprites.append(pokemon)
+
+    '''teste
     # creating first button:
     position1 = (origin[0] - button_dim[0] // 2, origin[1] - button_dim[1] * 2)
     label1 = "PIKACHU"
@@ -40,10 +56,10 @@ def draw_menu():
     # creating fifth button:
     position5 = (origin[0] - button_dim[0] // 2, origin[1] + button_dim[1]*2)
     label5 = "GASTLY"
-    button5 = Button(label5, button_dim, position5, colors)
+    button5 = Button(label5, button_dim, position5, colors)'''
 
-    buttons = [button1, button2, button3, button4, button5] #buttons list
-    positions = [position1, position2, position3, position4, position5] #buttons positions list
+    #buttons = [button1, button2, button3, button4, button5] #buttons list
+    #positions = [position1, position2, position3, position4, position5] #buttons positions list
     cursor = 0
 
     pikachu = pg.image.load('displays/imgs/front/PIKACHU.png')
@@ -59,7 +75,7 @@ def draw_menu():
 
     choose_text = font.render('Choose your Pokemon:',True, (255,255,255))
 
-    choosed_pokemon = "NONE"
+    player1 = "NONE"
 
     running_menu=True
 
@@ -95,9 +111,10 @@ def draw_menu():
                 if ev.key == pg.K_RETURN:
                     for button in buttons:
                         if cursor_position in button:
-                                choosed_pokemon = button.label
-                                print(choosed_pokemon)
-                                return(choosed_pokemon, "NAMEIT")
+                                indButton = labels.index(button.label)
+                                player1 = pokemonList[indButton]
+                                print(player1)
+                                return(player1, "NAMEIT")
                                 running_menu = False
                                 break
                                 
@@ -108,7 +125,9 @@ def draw_menu():
 
         for button in buttons:
             if cursor_position in button:
-                if button.label == "PIKACHU":
+                indButton = labels.index(button.label)
+                screen.blit(pokeSprites[indButton], (450, 125))
+                '''if button.label == "PIKACHU":
                     button.alternative_color = (255, 215, 0)
                     screen.blit( pikachu, (450,125) )
                 
@@ -126,7 +145,7 @@ def draw_menu():
                     
                 else: #gastly
                     button.alternative_color = (255, 0, 255)
-                    screen.blit(gastly, (450,125) )
+                    screen.blit(gastly, (450,125) )'''
                 
                 draw_button(screen, button, bg_color, font, True)
             else:

@@ -1,2 +1,2 @@
 # PYkemon
-Simple Pokemon emerald game made in Python
+Simple Pokemon fire red game made in Python
