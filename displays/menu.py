@@ -13,8 +13,7 @@ def draw_menu():
     font = pg.font.Font('displays/font.ttf', height // 20)
 
     # general button configuration:
-    high_color= (0, 0, 0)
-    colors = ((55, 55, 55), high_color)
+    colors = ((55, 55, 55), (0,0,0))
     button_dim = (width // 2, height // 10)
     origin = (width //4, height //2)
 
@@ -102,9 +101,9 @@ def draw_menu():
                         elif poke.pokeType == 'eletric':
                             button.alternative_color = (255, 215, 0)
                 
-                draw_button(screen, button, bg_color, font, True)
+                draw_button(screen, button, bg_color,(255,255,255), font, True)
             else:
-                draw_button(screen, button, bg_color, font)
+                draw_button(screen, button, bg_color,(255,255,255), font)
 
         # Printing cursor:
         sc = 16 #cursor size

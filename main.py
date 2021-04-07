@@ -3,8 +3,8 @@ from musica import Musica
 from displays.allDisplays import *
 pygame.init()
 
-theme = 'musica\AfireRedAbertura.wav'#coloca o tema de abertura para tocar
-Musica.musica(theme, 0.9)
+#theme = 'musica\AfireRedAbertura.wav'#coloca o tema de abertura para tocar
+#Musica.musica(theme, 0.9)
 
 pygame.joystick.init()
 print(pygame.joystick.get_count())

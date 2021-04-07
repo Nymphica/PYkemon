@@ -1,3 +1,9 @@
+06/04 Nymphica (again)
+
+# meu cerebro is not working, eu fiz umas alterações mas amanhã eu resgistro.
+
+#estou atualizando apenas para não dar problema de merge de novo.
+
 06/04 Nymphica
 
 #vi que mudou as imagens de lugar então coloquei todas em sprites/pokemon/Back-front

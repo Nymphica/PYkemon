@@ -44,6 +44,14 @@ class Button:
     def alternative_color(self, new_color): 
         self.__alt_color = new_color
 
+    @label.setter
+    def label(self, new_label):
+        self.__label = new_label
+
+    @offset.setter
+    def offset(self, new_offset):
+        self.__offset = new_offset
+
     def text_offset(self, text_size):
         x0, y0 = self.offset
         dx, dy = self.size
@@ -63,7 +71,7 @@ class Button:
 
         return contains_x and contains_y
     
-def draw_button(screen, button, bg_color, font, highlighted=False, noColor=False):
+def draw_button(screen, button, bg_color, txt_color, font, highlighted=False, noColor=False):
     if highlighted:
         pygame.draw.rect(screen, button.alternative_color, button.rect)
 
@@ -76,7 +84,7 @@ def draw_button(screen, button, bg_color, font, highlighted=False, noColor=False
         pygame.draw.rect(screen, bg_color, button.rect, 2)
     
     if not noColor:
-        text = font.render(button.label, True, (255, 255, 255)) #font.render(text, antialias, (color), bg=none) - antialias smooth the edges of the pixels
+        text = font.render(button.label, True, txt_color) #font.render(text, antialias, (color), bg=none) - antialias smooth the edges of the pixels
         text_rect = text.get_rect()
         text_rect.center = (
         button.offset[0] + button.size[0] // 2, # text position on X

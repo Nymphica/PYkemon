@@ -4,6 +4,7 @@ from battle.pokemonList import *
 from displays.button import *
 from random import randint #intreger random
 from displays.img import image
+from displays.fight_op import draw_moves
 from time import sleep
 
 def draw_battle(player1, pokeName):
@@ -17,6 +18,7 @@ def draw_battle(player1, pokeName):
     height = screen.get_height() #screen height
 
     font = pg.font.Font('displays/font.ttf', height // 30) 
+    big_font = pg.font.Font('displays/font.ttf', height // 20) 
     
     #background
     bg = pg.image.load('sprites/battle_bg\FundoPokemon.png')
@@ -44,7 +46,7 @@ def draw_battle(player1, pokeName):
 
     #grey bar
     gry_bar = pg.image.load('sprites/battle_bg\gry_bar.png')
-    gry_bar = pg.transform.scale(gry_bar, (172,15))
+    gry_bar = pg.transform.scale(gry_bar, (1,15))
 
     #red bar
     red_bar = pg.image.load('sprites/battle_bg\Red_bar.png')
@@ -61,62 +63,86 @@ def draw_battle(player1, pokeName):
     pos, scale= (0, 160), (290,290)
     player = image("player", player, pos, scale, screen)
 
-    # general button configuration:
     colors = ((55, 55, 55), (0, 0, 0))
     button_dim = (width // 5 + 15, height // 15)
     origin = (width-button_dim[0]*1.7, height-36)
 
-    # creating first button FIGHT:
-    position1 = (origin[0] - button_dim[0] // 2, origin[1] - button_dim[1] * 2)
-    button1 = Button("FIGHT", button_dim, position1, colors)
+    buttons = []
+    positions = []
+    labels = ['FIGHT', 'POKEMON', 'BAG', 'RUN']
 
-    # creating second button POKEMON:
-    position2 = (origin[0] - button_dim[0] // 2, origin[1] - button_dim[1] + 10)
-    label2 = "POKEMON"
-    button2 = Button(label2, button_dim, position2, colors)
+    for i in range(len(labels)):
+        if  i==0 :
+            position = (origin[0] - button_dim[0]//2, origin[1] - button_dim[1] * 2)
+        elif i==1:
+            position = (origin[0] - button_dim[0]//2, origin[1] - button_dim[1] + 10)
+        if  i==2 :
+            position = (origin[0] + button_dim[0]//2, origin[1] - button_dim[1] * 2)
+        elif i==3:
+            position = (origin[0] + button_dim[0]//2, origin[1] - button_dim[1] + 10)
 
-    # creating third button BAG:
-    position3 = (origin[0] + button_dim[0]//2 + 15, origin[1] - button_dim[1] * 2)
-    label3 = "BAG"
-    button3 = Button(label3, button_dim, position3, colors)
+        positions.append(position)
+        buttons.append(Button(labels[i], button_dim, position, colors))
 
-    # creating fourth button RUN:
-    position4 = (origin[0] + button_dim[0]//2 + 15, origin[1] - button_dim[1] + 10)
-    label4 = "RUN"
-    button4 = Button(label4, button_dim, position4, colors)
-
-    buttons = [button1, button2, button3, button4] #buttons list
-    positions = [position1, position2, position3, position4] #buttons positions list
     cursor = 0
+
 
     screen = pg.display.set_mode((800, 600)) #screen size
     screen.fill((255,255,255)) #Screen color background
 
-    do_text = font.render(f'WHAT WILL {pokeName} DO?',True, (255,255,255))
+    do_text1 = big_font.render('WHAT WILL',True, (255,255,255))
+    do_text2 = big_font.render(f'{pokeName} DO?',True, (255,255,255))
 
     icon = pg.image.load('icon.png')# window icon
     pg.display.set_icon(icon)
 
+    attacked = False
+    enemy_life_bar =gry_bar
+    you_win=False
+    actual_damage = 0
     running=True
     while running:
 
-        if enemyIMG.is_red:
-            sleep(0.001)
-            enemyIMG.back_img()
+        if you_win: sleep(2); pg.quit()
+
+        if attacked:
+            while damage > 0:
+                if actual_damage >= 166:
+                    enemy_life_bar = red_bar
+                    actual_damage=0
+                    break
+                damage -= 1
+                actual_damage += 1
+                enemy_life_bar = pg.transform.scale(gry_bar, (actual_damage,15))
+
+            while damage > 0 and enemy_life_bar == red_bar:
+                screen.blit( gry_bar, (153,108))
+                if actual_damage >= 332:
+                    do_text1 = big_font.render('YOU',True, (255,255,255))
+                    do_text2 = big_font.render('WIN!',True, (255,255,255))
+                    you_win = True
+                    break
+                damage -= 1
+                actual_damage += 1
+                enemy_life_bar = pg.transform.scale(red_bar, (actual_damage-166,15))
+
+            print(actual_damage, enemy_life_bar)
+            attacked = False
 
 
         screen.blit( bg, (0,0) )
         screen.blit( enemyIMG.img, enemyIMG.pos )
         screen.blit( player.img, player.pos )
-        screen.blit( pp_bar, (0,450) )
         screen.blit( bar_2, (420,280) )
         screen.blit( bar_1, (10,30) )
         screen.blit( text_bar, (0,450) )
         screen.blit( options, (400,450) )
-        screen.blit( gry_bar, (153,108) )
+        screen.blit( enemy_life_bar, (153,108) )
         screen.blit( red_bar, (587,358) )
 
-        screen.blit(do_text, (40,510))
+        screen.blit(do_text1, (40,480))
+        screen.blit(do_text2, (40,530))
+
 
 
         # defining cursor position:
@@ -127,7 +153,7 @@ def draw_battle(player1, pokeName):
         )
 
         for button in buttons: # DRAW ALL BUTTONS
-                draw_button(screen, button, bg_color, font, False, True)
+                draw_button(screen, button, bg_color, (255,255,255), font, False, True)
 
         # Printing cursor:
         sc = 16 #cursor size
@@ -179,11 +205,8 @@ def draw_battle(player1, pokeName):
                                     enemyIMG.img = newEnemyIMG
 
                                 elif choosed_action == "FIGHT":
-                                    enemyIMG.turn_red() #turn enemy red
-                                    screen.blit( bar_2, (420,280) ) #temporario
-                                    screen.blit( red_bar, (587,358) )#temporario
-                                    player.shake() #shake player img
-
+                                    damage = draw_moves(screen, player1, pokeName,player, enemyIMG, width, height, pp_bar, text_bar)
+                                    attacked = True
 
 
                                 running_menu = False
