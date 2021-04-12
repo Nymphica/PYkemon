@@ -3,8 +3,9 @@ from displays.button import *
 from displays.img import *
 import pygame as pg
 from time import sleep
+from battle.attack import attack
 
-def draw_moves(screen, pokemon, pokeName, player, enemy, width, height, pp_bar, text_bar):
+def draw_moves(screen, pokemon, player, enemy, enemyIMG, width, height, pp_bar, text_bar):
 
     labels=[]
     for move in pokemon.moves:
@@ -35,7 +36,7 @@ def draw_moves(screen, pokemon, pokeName, player, enemy, width, height, pp_bar, 
         positions.append(position)
         buttons.append(Button(labels[i], button_dim, position, colors))
 
-    used_text = big_font.render(f'{pokeName} used',True, (255,255,255))
+    used_text = big_font.render(f'{pokemon.name} used',True, (255,255,255))
     used_text1 = big_font.render('',True, (255,255,255))
 
     on = True
@@ -45,11 +46,11 @@ def draw_moves(screen, pokemon, pokeName, player, enemy, width, height, pp_bar, 
     cycle = 0
     while on :
 
-        if enemy.is_red:
+        if enemyIMG.is_red:
             print('is red')
             sleep(0.001)
-            enemy.back_img()
-            screen.blit( enemy.origin, enemy.pos )
+            enemyIMG.back_img()
+            screen.blit( enemyIMG.origin, enemyIMG.pos )
             screen.blit( text_bar, (0,450) )
             screen.blit(used_text, (40,480))
             screen.blit(used_text1, (40,530))
@@ -61,7 +62,8 @@ def draw_moves(screen, pokemon, pokeName, player, enemy, width, height, pp_bar, 
                 if move.name == choosed_move :
                     print(move.name)
                     print(move.power)
-                    return(move.power)
+                    damage = attack(pokemon, enemy, move)
+                return(damage)
             on = False
 
         # defining cursor position:
@@ -120,7 +122,7 @@ def draw_moves(screen, pokemon, pokeName, player, enemy, width, height, pp_bar, 
                             choosed_move = button.label
                             print(move_name)
                             used_text1 = big_font.render(move_name,True, (255,255,255))
-                            enemy.turn_red()
+                            enemyIMG.turn_red()
                             player.shake()
                             player_attacked = True
         

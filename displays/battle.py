@@ -106,23 +106,23 @@ def draw_battle(player1, pokeName):
         if you_win: sleep(2); pg.quit()
 
         if attacked:
-            while damage > 0:
+            while damage[0] > 0:
                 if actual_damage >= 166:
                     enemy_life_bar = red_bar
                     actual_damage=0
                     break
-                damage -= 1
+                damage[0] -= 1
                 actual_damage += 1
                 enemy_life_bar = pg.transform.scale(gry_bar, (actual_damage,15))
 
-            while damage > 0 and enemy_life_bar == red_bar:
+            while damage[0] > 0 and enemy_life_bar == red_bar:
                 screen.blit( gry_bar, (153,108))
                 if actual_damage >= 332:
                     do_text1 = big_font.render('YOU',True, (255,255,255))
                     do_text2 = big_font.render('WIN!',True, (255,255,255))
                     you_win = True
                     break
-                damage -= 1
+                damage[0] -= 1
                 actual_damage += 1
                 enemy_life_bar = pg.transform.scale(red_bar, (actual_damage-166,15))
 
@@ -193,22 +193,22 @@ def draw_battle(player1, pokeName):
                     for button in buttons:
                         if cursor_position in button:
                             
-                                choosed_action = button.label
-                                print(choosed_action)
+                            choosed_action = button.label
+                            print(choosed_action)
 
-                                if choosed_action == "POKEMON":
-                                    return("MENU") # (temporario) return to menu to choose other pokemon
+                            if choosed_action == "POKEMON":
+                                return("MENU") # (temporario) return to menu to choose other pokemon
 
-                                elif choosed_action == "RUN": #if run choose other enemy
-                                    enemy = pokemonList[randint(0, len(pokemonList) - 1)]
-                                    newEnemyIMG = pg.image.load(enemy.pokeSprite[1])#(f'displays/imgs/front/{pokelistIMG[randint(0,3)]}.png')
-                                    enemyIMG.img = newEnemyIMG
+                            elif choosed_action == "RUN": #if run choose other enemy
+                                enemy = pokemonList[randint(0, len(pokemonList) - 1)]
+                                newEnemyIMG = pg.image.load(enemy.pokeSprite[1])#(f'displays/imgs/front/{pokelistIMG[randint(0,3)]}.png')
+                                enemyIMG.img = newEnemyIMG
 
-                                elif choosed_action == "FIGHT":
-                                    damage = draw_moves(screen, player1, pokeName,player, enemyIMG, width, height, pp_bar, text_bar)
-                                    attacked = True
+                            elif choosed_action == "FIGHT":
+                                damage = draw_moves(screen, player1, player, enemy, enemyIMG, width, height, pp_bar, text_bar)
+                                attacked = True
 
 
-                                running_menu = False
-                                break
+                            running_menu = False
+                            break
         pg.display.flip()

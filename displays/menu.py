@@ -92,13 +92,13 @@ def draw_menu():
                 screen.blit(pokeSprites[indButton], (440, 70))
                 for poke in pokemonList:
                     if button.label == poke.name:
-                        if poke.pokeType == 'fire':
+                        if 'fire' in poke.pokeType:
                             button.alternative_color = (255, 0, 0)
-                        elif poke.pokeType == 'water':
+                        elif 'water' in poke.pokeType:
                             button.alternative_color = (0, 0, 255)
-                        elif poke.pokeType == 'leaf':
+                        elif 'grass' in poke.pokeType:
                             button.alternative_color = (0, 255, 0)
-                        elif poke.pokeType == 'eletric':
+                        elif 'electric' in poke.pokeType:
                             button.alternative_color = (255, 215, 0)
                 
                 draw_button(screen, button, bg_color,(255,255,255), font, True)
