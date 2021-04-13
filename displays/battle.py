@@ -5,9 +5,10 @@ from displays.button import *
 from random import randint #intreger random
 from displays.img import image
 from displays.fight_op import draw_moves
+from displays.moveLifeBar import draw_lifebar
 from time import sleep
 
-def draw_battle(player1, pokeName):
+def draw_battle(player, pokeName, pokeGender):
     pg.init()
 
     bg_color = (55, 55, 55) #background color
@@ -17,7 +18,8 @@ def draw_battle(player1, pokeName):
     width = screen.get_width() #screen width
     height = screen.get_height() #screen height
 
-    font = pg.font.Font('displays/font.ttf', height // 30) 
+    font = pg.font.Font('displays/font.ttf', height // 30)
+    med_font = pg.font.Font('displays/font.ttf', height // 25) 
     big_font = pg.font.Font('displays/font.ttf', height // 20) 
     
     #background
@@ -28,13 +30,15 @@ def draw_battle(player1, pokeName):
     pp_bar = pg.image.load('sprites/battle_bg\pp_bar.png')
     pp_bar = pg.transform.scale(pp_bar, (800,150))
 
-    #options FIGHT/RUN/ETC bar
-    options = pg.image.load('sprites/battle_bg\Fgt_options.png')
-    options = pg.transform.scale(options, (400,150))
-
     #text bar
     text_bar = pg.image.load('sprites/battle_bg\Text_bar.png')
     text_bar = pg.transform.scale(text_bar, (800,150))
+
+    text_bars = [pp_bar, text_bar]
+
+    #options FIGHT/RUN/ETC bar
+    options = pg.image.load('sprites/battle_bg\Fgt_options.png')
+    options = pg.transform.scale(options, (400,150))
 
     #Second pokemon bar
     bar_2 = pg.image.load('sprites/battle_bg\Bar_2.png')
@@ -48,9 +52,16 @@ def draw_battle(player1, pokeName):
     gry_bar = pg.image.load('sprites/battle_bg\gry_bar.png')
     gry_bar = pg.transform.scale(gry_bar, (1,15))
 
+    #yellow bar
+
+    ylw_bar =pg.image.load('sprites/battle_bg\ylw_bar.png')
+    ylw_bar = pg.transform.scale(ylw_bar, (1,15))
+
     #red bar
     red_bar = pg.image.load('sprites/battle_bg\Red_bar.png')
-    red_bar = pg.transform.scale(red_bar, (166,13))
+    red_bar = pg.transform.scale(red_bar, (1,13))
+
+    life_bars = [gry_bar, ylw_bar, red_bar]
 
     #enemy
     enemy = pokemonList[randint(0, len(pokemonList) - 1)]
@@ -59,9 +70,9 @@ def draw_battle(player1, pokeName):
     enemyIMG = image("enemy",enemyIMG, pos, scale, screen)
 
     #player
-    player = pg.image.load(player1.pokeSprite[0])
+    playerIMG = pg.image.load(player.pokeSprite[0])
     pos, scale= (0, 160), (290,290)
-    player = image("player", player, pos, scale, screen)
+    playerIMG = image("player", playerIMG, pos, scale, screen)
 
     colors = ((55, 55, 55), (0, 0, 0))
     button_dim = (width // 5 + 15, height // 15)
@@ -71,17 +82,20 @@ def draw_battle(player1, pokeName):
     positions = []
     labels = ['FIGHT', 'POKEMON', 'BAG', 'RUN']
 
+    #loop for creating buttons
     for i in range(len(labels)):
+        #position (x,y)
         if  i==0 :
             position = (origin[0] - button_dim[0]//2, origin[1] - button_dim[1] * 2)
         elif i==1:
             position = (origin[0] - button_dim[0]//2, origin[1] - button_dim[1] + 10)
         if  i==2 :
-            position = (origin[0] + button_dim[0]//2, origin[1] - button_dim[1] * 2)
+            position = (origin[0] + button_dim[0]//1.7, origin[1] - button_dim[1] * 2)
         elif i==3:
-            position = (origin[0] + button_dim[0]//2, origin[1] - button_dim[1] + 10)
+            position = (origin[0] + button_dim[0]//1.7, origin[1] - button_dim[1] + 10)
 
         positions.append(position)
+
         buttons.append(Button(labels[i], button_dim, position, colors))
 
     cursor = 0
@@ -93,57 +107,52 @@ def draw_battle(player1, pokeName):
     do_text1 = big_font.render('WHAT WILL',True, (255,255,255))
     do_text2 = big_font.render(f'{pokeName} DO?',True, (255,255,255))
 
+    Mgender = big_font.render(f'♂',True, (0,0,255)) # pokemon male gender
+    Fgender = big_font.render(f'♀',True, (255,0,0)) # pokemon female gender
+
+    genders = [Mgender, Fgender] #gender list
+
+    eName = med_font.render(f'{enemy.name}',True, (55,55,55)) #enemy name
+    eGender = genders[randint(0, 1)] #enemy gender
+    eLevel = med_font.render('1',True, (55,55,55)) #enemy level
+    eInfo = [eName, eGender, eLevel]
+
+    pName = med_font.render(f'{pokeName}',True, (55,55,55)) #player name
+    pLevel = med_font.render('1',True, (55,55,55)) #player level
+    pPp = med_font.render('20/20',True, (55,55,55)) #player pp (actualy i dont know what it is but there it is)
+    pInfo = [pName, pLevel, pPp, pokeGender]
+
     icon = pg.image.load('icon.png')# window icon
     pg.display.set_icon(icon)
 
     attacked = False
     enemy_life_bar =gry_bar
+    player_life_bar =gry_bar
     you_win=False
     actual_damage = 0
     running=True
     while running:
 
-        if you_win: sleep(2); pg.quit()
-
-        if attacked:
-            while damage[0] > 0:
-                if actual_damage >= 166:
-                    enemy_life_bar = red_bar
-                    actual_damage=0
-                    break
-                damage[0] -= 1
-                actual_damage += 1
-                enemy_life_bar = pg.transform.scale(gry_bar, (actual_damage,15))
-
-            while damage[0] > 0 and enemy_life_bar == red_bar:
-                screen.blit( gry_bar, (153,108))
-                if actual_damage >= 332:
-                    do_text1 = big_font.render('YOU',True, (255,255,255))
-                    do_text2 = big_font.render('WIN!',True, (255,255,255))
-                    you_win = True
-                    break
-                damage[0] -= 1
-                actual_damage += 1
-                enemy_life_bar = pg.transform.scale(red_bar, (actual_damage-166,15))
-
-            print(actual_damage, enemy_life_bar)
-            attacked = False
-
-
         screen.blit( bg, (0,0) )
         screen.blit( enemyIMG.img, enemyIMG.pos )
-        screen.blit( player.img, player.pos )
+        screen.blit( playerIMG.img, playerIMG.pos )
         screen.blit( bar_2, (420,280) )
         screen.blit( bar_1, (10,30) )
         screen.blit( text_bar, (0,450) )
         screen.blit( options, (400,450) )
         screen.blit( enemy_life_bar, (153,108) )
-        screen.blit( red_bar, (587,358) )
+        screen.blit( player_life_bar, (587,358) )
 
         screen.blit(do_text1, (40,480))
         screen.blit(do_text2, (40,530))
 
-
+        screen.blit(eName, (27,55))
+        screen.blit(eLevel, (310,55))
+        screen.blit(eGender, (245,50))
+        screen.blit(pName, (470,310))
+        screen.blit(pokeGender, (675,305))
+        screen.blit(pLevel, (735,310))
+        screen.blit(pPp, (630,377))
 
         # defining cursor position:
         cursor_position_shifted = positions[cursor] #from each button possition
@@ -203,11 +212,23 @@ def draw_battle(player1, pokeName):
                                 enemy = pokemonList[randint(0, len(pokemonList) - 1)]
                                 newEnemyIMG = pg.image.load(enemy.pokeSprite[1])#(f'displays/imgs/front/{pokelistIMG[randint(0,3)]}.png')
                                 enemyIMG.img = newEnemyIMG
+                                eName = med_font.render(f'{enemy.name}',True, (55,55,55))
+                                eGender = genders[randint(0, 1)]
+                                eInfo = [eName, eGender, eLevel]
 
                             elif choosed_action == "FIGHT":
-                                damage = draw_moves(screen, player1, player, enemy, enemyIMG, width, height, pp_bar, text_bar)
-                                attacked = True
-
+                                #draw the attack options and attack the enemy
+                                draw_moves('player', pokeName, player, playerIMG, enemy, enemyIMG, text_bars, screen, pInfo, eInfo)
+                                #in case the enemy is dead
+                                if enemy.currentHp <= 0: return('WIN'); pygame.quit() ; running = False
+                                #redraw the enemy life bar
+                                draw_lifebar(enemy.hpPercent ,'enemy', screen, life_bars, enemy_life_bar, player_life_bar)
+                                #make the enemy attack the player with an aleatory move
+                                draw_moves('enemy', enemy.name, player, playerIMG, enemy, enemyIMG, text_bars, screen, pInfo, eInfo)
+                                #in case the player is dead
+                                if player.currentHp <= 0: return('LOSE') ; pygame.quit() ; running = False
+                                #redraw the player life bar
+                                draw_lifebar(player.hpPercent, 'player', screen, life_bars, enemy_life_bar, player_life_bar)
 
                             running_menu = False
                             break

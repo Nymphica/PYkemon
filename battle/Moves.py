@@ -18,7 +18,7 @@ class moves:
 
     @property
     def moveType(self):
-        return self.power
+        return self.__moveType
 
     @property
     def accuracy(self):
@@ -38,4 +38,4 @@ class moves:
 
     @currentPP.setter
     def currentPP(self, novoValor):
-        self.currentPP = novoValor
+        self.__currentPP = self.__currentPP - novoValor

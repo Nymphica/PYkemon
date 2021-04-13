@@ -1,5 +1,6 @@
 # don´t forget that pg is pygame
 import pygame as pg
+from random import randint
 
 def draw_nameIt(player1):
 
@@ -9,14 +10,23 @@ def draw_nameIt(player1):
     pg.display.set_caption("Name It") #set caption
     width = screen.get_width()
     height = screen.get_height()
+    icon = pg.image.load('icon.png')# window icon
 
-    input_box = pg.Rect(300, height//3, 200, 50) #rect for the input (x, y, width, height)
+    input_box = pg.Rect(280, height//3.5, 200, 50) #rect for the input (x, y, width, height)
 
     font = pg.font.Font('displays/font.ttf', height // 20)
+    big_font = pg.font.Font('displays/font.ttf', height // 20) 
 
     text= '' #string for the name input
 
     choose_text = font.render('Choose your Pokemon name:',True, (255,255,255)) #the choose text
+
+    Mgender = big_font.render(f'♂',True, (0,0,255)) #set male gender
+    Fgender = big_font.render(f'♀',True, (255,0,0)) # set female gender
+
+    genders = [Mgender, Fgender] #list of gender
+
+    pGender = genders[randint(0, 1)] #get an random gender
 
     running_name = True
 
@@ -26,15 +36,15 @@ def draw_nameIt(player1):
         player = pg.image.load(player1.pokeSprite[1]) #the img of the choosed pokemon
         player = pg.transform.scale(player, (290,290))
 
-        for event in pg.event.get():
+        for event in pg.event.get(): #for all enevents made
 
-            if event.type == pg.QUIT:
+            if event.type == pg.QUIT: #if it is the quit button, so quit
                 running_name=False
                 break
 
             elif event.type == pg.KEYDOWN:
                 if event.key == pg.K_RETURN: #if ENTER, so it's done
-                        print(text)
+                        print('pokemon name: ',text)
                         running_name = False
 
                 elif event.key == pg.K_BACKSPACE: #if BACKSPACE take off the last letter
@@ -51,11 +61,12 @@ def draw_nameIt(player1):
 
         screen.blit(choose_text, (90,100))
 
-        screen.blit( player, (270,250) )
+        screen.blit( player, (240,250) )
+
+        screen.blit( pGender, (250,height//3.5) )
 
         pg.display.flip()
 
-        icon = pg.image.load('icon.png')# window icon
         pg.display.set_icon(icon)
         
-    return("BATTLE", text)
+    return("BATTLE", text, pGender)

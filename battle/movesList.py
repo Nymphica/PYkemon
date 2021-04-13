@@ -18,3 +18,12 @@ thundershock = moves('thunder shock', 40, electric, 100, 30, 'special')
 brickbreak = moves('brick break', 75, fighting, 100, 15, 'physical')
 thief = moves('thief', 60, dark, 100, 25, 'physical')
 thunderbolt = moves('thunderbolt', 90, electric, 100, 15, 'special')
+#bulbasaur
+tackle = moves('tackle', 40, normal, 100, 35, 'physical')
+growl = moves('growl', 40, normal, 100, 40, 'physical')
+vinewhip = moves('vine whip', 45, grass, 100, 25, 'physical')
+growth = moves('growth', 40, normal, 100, 20, 'physical')
+#squirtle
+tailwhip = moves('tail whip', 40, normal, 100, 40, 'physical')
+bubble = moves('bubble', 40, water, 100, 25, 'special')
+watergun = moves('water gun', 40, water, 100, 20, 'physical')

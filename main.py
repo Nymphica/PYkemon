@@ -3,13 +3,13 @@ from musica import Musica
 from displays.allDisplays import *
 pygame.init()
 
-#theme = 'musica\AfireRedAbertura.wav'#coloca o tema de abertura para tocar
-#Musica.musica(theme, 0.9)
+theme = 'musica\AfireRedAbertura.wav'#coloca o tema de abertura para tocar
+Musica.musica(theme, 0)
 def main():
     pygame.joystick.init()
     print(pygame.joystick.get_count())
 
-    display = "MENU" # actual display
+    display = "INIT" # actual display
 
     running = True
 
@@ -19,14 +19,25 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
+        if display == "INIT":
+            display = draw_init()
+
         if display == "MENU":
             choosed_pokemon, display = draw_menu()
 
         elif display == "NAMEIT":
-            display, pokeName = draw_nameIt(choosed_pokemon)
+            display, pokeName, pokeGender = draw_nameIt(choosed_pokemon)
             
         elif display == "BATTLE":
-            display = draw_battle(choosed_pokemon, pokeName)
+            bg_music = 'musica/battle.wav'
+            Musica.musica(bg_music, 0)
+            display = draw_battle(choosed_pokemon, pokeName, pokeGender)
+        
+        elif display == 'WIN':
+            draw_win(choosed_pokemon)
+        
+        elif display == 'LOSE':
+            draw_lose(choosed_pokemon)
 
 if __name__ == '__main__':
     main()

@@ -12,3 +12,4 @@ flying = pokeType('flying', ['grass', 'fighting', 'bug'], ['electric', 'rock', '
 poison = pokeType('poison', ['grass', 'fairy'], ['poison', 'ground', 'rock', 'ghost'], ['steel'])
 rock = pokeType('rock', ['fire', 'ice', 'flying', 'bug'], ['fighting', 'ground', 'steel'], [])
 fighting = pokeType('fighting', ['normal', 'ice', 'rock', 'dark', 'steel'], ['poison', 'flying', 'psychic', 'bug', 'fairy'], ['ghost'])
+grass = pokeType('grass', ['water','ground','rock'], ['fire','grass','poison','fluing', 'bug', 'dragon', 'steel'], [])

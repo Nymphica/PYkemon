@@ -51,6 +51,7 @@ class image:
 
     #turn img more red
     def turn_red(self):
+        print('IMG')
         #it takes pixel per pixel and change the RBGA (red, green, blue, alpha (transparency)) values
         for x in range(self.w):
             for y in range(self.h):
@@ -70,10 +71,11 @@ class image:
 
         self.__screen.blit( self.__img, self.__pos)
         self.__is_red = True
-        print("red", self.__name) #just to debug
+        print("turn red", self.__name) #just to debug
 
     #put img back to normal
     def back_img(self):
+        print('IMG')
         #it takes pixel per pixel from a copy of the original img and replaceit in the actual img
         for x in range(self.w):
             for y in range(self.h):
@@ -83,12 +85,13 @@ class image:
                 b = self.__origin.get_at((x, y))[2]
                 a = self.__origin.get_at((x, y))[3]
                 self.__img.set_at((x, y), pg.Color(r, g, b, a))
-        print("back", self.__name)
+        print("back img ", self.__name)
 
         self.__is_red = False
 
     #more img brightnes
     def more_bright(self):
+        print('IMG')
         for x in range(self.w):
             for y in range(self.h):
                 r = self.__img.get_at((x, y))[0]
@@ -106,7 +109,7 @@ class image:
 
     #less img brightnes
     def drop_bright(self):
-
+        print('IMG')
         for x in range(self.w):
             for y in range(self.h):
                 r = self.__img.get_at((x, y))[0]
@@ -123,7 +126,7 @@ class image:
         print("drop bright", self.__name)
 
     def shake(self):
-
+        print('IMG')
         if self.__name=="enemy":
 
             for n in range(5):
@@ -138,6 +141,6 @@ class image:
 
                 self.__pos = (10 , 160)
                 self.__screen.blit(self.__img, self.__pos)
-                self.__pos= (0,160)
+
         
         print("shake ", self.__name)
