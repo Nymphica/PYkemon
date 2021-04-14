@@ -354,7 +354,7 @@ def draw_moves(player, player1, player1IMG, player2, player2IMG, text_bars, scre
                                 choosed_move = button.label
                                 for move in player1.moves:
                                     if move.name == choosed_move:
-                                        if move.currentPP >= 0:
+                                        if move.currentPP > 0:
                                         
                                             print(f'{button.label}!')
                                             used_text1 = big_font.render(f'{button.label}!',True, (255,255,255))
