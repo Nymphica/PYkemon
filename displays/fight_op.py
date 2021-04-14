@@ -65,7 +65,10 @@ def draw_moves(player, player1, player1IMG, player2, player2IMG, text_bars, scre
 
         cycle = 0
 
-        choosed_move = player2.moves[randint(0,3)]
+        while True:
+            choosed_move = player2.moves[randint(0,3)]
+            if choosed_move.currentPP>0:
+                break
         print(choosed_move.name)
         used_text1 = big_font.render(f'{choosed_move.name}!',True, (255,255,255))
 
@@ -94,26 +97,34 @@ def draw_moves(player, player1, player1IMG, player2, player2IMG, text_bars, scre
         screen.blit(used_text, (40,480))
         screen.blit(used_text1, (40,530))
         cycle=1
-
+        pg.display.flip()
+        
         sleep(1)
         for move in player2.moves:
             if move == choosed_move :
                 print(move.name)
                 print(move.power)
                 move = choosed_move
-                damage, modifier = attack(player2, player1, move)
-                if modifier != 1:
-                    if modifier == 2:
-                        text = "THAT WAS SUPER EFECCTIVE!"
-                    elif modifier == 0:
-                        text = "THAT WAS INEFFECTIVE!"
-                    elif modifier == 0.5:
-                        text = "THAT WASN'T VERY EFFECTIVE"
+                if randint(0, 100) > move.accuracy:
+                    damage, modifier = 0, 1
+                    text = "Attack missed"
                     efecctivenes = big_font.render(text,True, (255,255,255))
                     screen.blit( text_bar, (0,450) )
                     screen.blit(efecctivenes, (40,480))
-                    pg.display.flip()
-                    sleep(1)
+                else:
+                    damage, modifier = attack(player2, player1, move)
+                    if modifier != 1:
+                        if modifier == 2:
+                            text = "THAT WAS SUPER EFECCTIVE!"
+                        elif modifier == 0:
+                            text = "THAT WAS INEFFECTIVE!"
+                        elif modifier == 0.5:
+                            text = "THAT WASN'T VERY EFFECTIVE"
+                        efecctivenes = big_font.render(text,True, (255,255,255))
+                        screen.blit( text_bar, (0,450) )
+                        screen.blit(efecctivenes, (40,480))
+                pg.display.flip()
+                sleep(1)
                 return(damage, move)
 
         '''player_attacked = True
@@ -249,17 +260,24 @@ def draw_moves(player, player1, player1IMG, player2, player2IMG, text_bars, scre
                 for move in player1.moves:
                     if move.name == choosed_move :
                         used_move = move
-                        damage, modifier = attack(player1, player2, move)
-                        if modifier != 1:
-                            if modifier == 2:
-                                text = "THAT WAS SUPER EFECCTIVE!"
-                            elif modifier == 0:
-                                text = "THAT WAS INEFFECTIVE!"
-                            elif modifier == 0.5:
-                                text = "THAT WASN'T VERY EFFECTIVE"
+                        if randint(0, 100) > move.accuracy:
+                            damage, modifier = 0, 1
+                            text = "Attack missed"
                             efecctivenes = big_font.render(text,True, (255,255,255))
                             screen.blit( text_bar, (0,450) )
                             screen.blit(efecctivenes, (40,480))
+                        else:
+                            damage, modifier = attack(player1, player2, move)
+                            if modifier != 1:
+                                if modifier == 2:
+                                    text = "THAT WAS SUPER EFECCTIVE!"
+                                elif modifier == 0:
+                                    text = "THAT WAS INEFFECTIVE!"
+                                elif modifier == 0.5:
+                                    text = "THAT WASN'T VERY EFFECTIVE"
+                                efecctivenes = big_font.render(text,True, (255,255,255))
+                                screen.blit( text_bar, (0,450) )
+                                screen.blit(efecctivenes, (40,480))
                             pg.display.flip()
                             sleep(1)
                         return(damage, used_move)
@@ -334,27 +352,31 @@ def draw_moves(player, player1, player1IMG, player2, player2IMG, text_bars, scre
                             if buttons[cursor] is button:
 
                                 choosed_move = button.label
-                                print(f'{button.label}!')
-                                used_text1 = big_font.render(f'{button.label}!',True, (255,255,255))
-                                player2IMG.turn_red()
-                                player1IMG.shake()
+                                for move in player1.moves:
+                                    if move.name == choosed_move:
+                                        if move.currentPP >= 0:
+                                        
+                                            print(f'{button.label}!')
+                                            used_text1 = big_font.render(f'{button.label}!',True, (255,255,255))
+                                            player2IMG.turn_red()
+                                            player1IMG.shake()
 
-                                screen.blit( bar_2, (420,280) )
-                                screen.blit( bar_1, (10,30) )
-                                screen.blit( text_bar, (0,450) )
+                                            screen.blit( bar_2, (420,280) )
+                                            screen.blit( bar_1, (10,30) )
+                                            screen.blit( text_bar, (0,450) )
 
-                                #player2 info
-                                screen.blit(eName, (27,55))
-                                screen.blit(eLevel, (310,55))
-                                screen.blit(eGender, (245,50))
-                                #player info
-                                screen.blit(pName, (470,310))
-                                screen.blit(pokeGender, (675,305))
-                                screen.blit(pLevel, (735,310))
-                                screen.blit(pPp, (630,377))
+                                            #player2 info
+                                            screen.blit(eName, (27,55))
+                                            screen.blit(eLevel, (310,55))
+                                            screen.blit(eGender, (245,50))
+                                            #player info
+                                            screen.blit(pName, (470,310))
+                                            screen.blit(pokeGender, (675,305))
+                                            screen.blit(pLevel, (735,310))
+                                            screen.blit(pPp, (630,377))
 
-                                player_attacked = True
-        
+                                            player_attacked = True
+                    
             #this cylce is used to avoid the sleep() of stopping the same loop that blits the text so it wait AFTER the text is blit
             if cycle == 1: cycle = 0; is_text= True; print('change cycle:', cycle)
 

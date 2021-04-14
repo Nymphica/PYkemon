@@ -126,7 +126,7 @@ def draw_battle(player1, pokeGender):
     pLevel = med_font.render('100',True, (55,55,55)) #player level
     currHp = player1.currentHp
     maxHp = player1.maxHp
-    pHp = med_font.render(f'{currHp}/{maxHp}',True, (55,55,55)) #player pp (actualy i dont know what it is but there it is)
+    pHp = med_font.render(f'{currHp}/{maxHp}',True, (55,55,55)) #player hp
     pInfo = [pName, pLevel, pHp, pokeGender]
 
     icon = pg.image.load('icon.png')# window icon
@@ -273,6 +273,7 @@ def draw_battle(player1, pokeGender):
                                     player2.currentHp -= damage
                                     player2_life_bar[0], player2_life_bar[1] = lower_life(screen, player2.hpPercent, player2_life_bar, life_bar_percent)
                                     print(player1.currentHp, player2.currentHp)
+                                    used_move.currentPP -= 1
                                     #draw the attack options and attack the player2
                                     #draw_moves('player1', pokeName, player1, player1IMG, player2, player2IMG, text_bars, screen, pInfo, eInfo)
                                     #in case the player1 or player2 is dead
@@ -294,6 +295,8 @@ def draw_battle(player1, pokeGender):
             pg.display.flip()
             damage, used_move = draw_moves('player2', player1, player1IMG, player2, player2IMG, text_bars, screen, pInfo, eInfo)
             player1.currentHp -= damage
+            pHp = med_font.render(f'{int(player1.currentHp)}/{maxHp}',True, (55,55,55))
+            used_move.currentPP -= 1
             player1_life_bar[0], player1_life_bar[1] = lower_life(screen, player1.hpPercent, player1_life_bar, life_bar_percent)
             if player2.isFainted(): return('WIN'); pygame.quit() ; running = False
             if player1.isFainted(): return('LOSE') ; pygame.quit() ; running = False

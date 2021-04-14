@@ -35,7 +35,7 @@ def attack(attacker, defender, move):
     elif move.classe == 'special':
         atk = attacker.spAtk
         defense = defender.spDefense
-    damage = ((42*move.power*(atk/defense))/50 + 2) * modifier
+    damage = 0.25*(((42*move.power*(atk/defense))/50 + 2) * modifier)
 
     '''#take pp from the attacker(player)
     for this_move in attacker.moves:
