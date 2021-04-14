@@ -8,7 +8,5 @@ def draw_lifebar(hpPercent, pokemon, screen, bars, player2_life_bar, player1_lif
     life = int(hpPercent)
     pg.transform.scale(bar, (life,15))
 
-    print('pokemon: ', pokemon,'hp percent:', hpPercent,' bar: ', bar, ' hp: ', life)
-
     if pokemon == 'player2': player2_life_bar = bar
     if pokemon == 'player1': player1_life_bar = bar

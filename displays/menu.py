@@ -91,7 +91,7 @@ def draw_menu():
                         if cursor_position in button:
                                 indButton = labels.index(button.label)
                                 playerPokemon = pokemonList1[indButton]
-                                print('choosed pokemon: ',playerPokemon.name)
+
                                 return(playerPokemon, "NAMEIT")
                                 running_menu = False
                                 break

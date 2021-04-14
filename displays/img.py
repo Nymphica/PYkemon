@@ -51,7 +51,6 @@ class image:
 
     #turn img more red
     def turn_red(self):
-        print('IMG')
         #it takes pixel per pixel and change the RBGA (red, green, blue, alpha (transparency)) values
         for x in range(self.w):
             for y in range(self.h):
@@ -71,11 +70,9 @@ class image:
 
         self.__screen.blit( self.__img, self.__pos)
         self.__is_red = True
-        print("turn red", self.__name) #just to debug
 
     #put img back to normal
     def back_img(self):
-        print('IMG')
         #it takes pixel per pixel from a copy of the original img and replaceit in the actual img
         for x in range(self.w):
             for y in range(self.h):
@@ -85,13 +82,12 @@ class image:
                 b = self.__origin.get_at((x, y))[2]
                 a = self.__origin.get_at((x, y))[3]
                 self.__img.set_at((x, y), pg.Color(r, g, b, a))
-        print("back img ", self.__name)
 
         self.__is_red = False
 
     #more img brightnes
     def more_bright(self):
-        print('IMG')
+        #it takes pixel per pixel and change the RBGA (red, green, blue, alpha (transparency)) values
         for x in range(self.w):
             for y in range(self.h):
                 r = self.__img.get_at((x, y))[0]
@@ -105,11 +101,10 @@ class image:
                     b+=50
                 a = self.__img.get_at((x, y))[3]
                 self.__img.set_at((x, y), pg.Color(r, g, b, a))
-        print("more bright", self.__name)
 
     #less img brightnes
     def drop_bright(self):
-        print('IMG')
+        #it takes pixel per pixel and change the RBGA (red, green, blue, alpha (transparency)) values
         for x in range(self.w):
             for y in range(self.h):
                 r = self.__img.get_at((x, y))[0]
@@ -123,11 +118,10 @@ class image:
                     b-=50
                 a = self.__img.get_at((x, y))[3]
                 self.__img.set_at((x, y), pg.Color(r, g, b, a))
-        print("drop bright", self.__name)
 
     def shake(self):
-        print('IMG')
-        if self.__name=="enemy":
+        #it changes the pokemon position in display to seem it shaked
+        if self.__name=="player2":
 
             for n in range(5):
 
@@ -135,12 +129,9 @@ class image:
                 self.__screen.blit(self.__img, self.__pos)
                 self.__pos = (430 , 0)
 
-        elif self.__name=="player":
+        elif self.__name=="player1":
 
             for n in range(5):
 
                 self.__pos = (10 , 160)
                 self.__screen.blit(self.__img, self.__pos)
-
-        
-        print("shake ", self.__name)

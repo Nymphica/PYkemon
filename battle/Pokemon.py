@@ -77,6 +77,7 @@ class pokemon:
     def name(self, novoValor):
         self.__name = novoValor
 
+    #setting the current pokemon HP
     @currentHp.setter
     def currentHp(self, novoValor):
         if novoValor <= 0:
@@ -86,6 +87,7 @@ class pokemon:
             self.__currentHp = novoValor
             self.__hpPercent = (100 * self.__currentHp)/self.__maxHp
     
+    #setting life percentage
     @hpPercent.setter
     def hpPercent(self, novoValor):
         if novoValor <= 0:
@@ -95,5 +97,5 @@ class pokemon:
             self.__lifePercent = novoValor
             self.__currentHp = (self.__hpPercent * self.__maxHp)/100
     
-    def isFainted(self):#verifica se o pokemon morreu
+    def isFainted(self):#verify if it died
         return self.__hpPercent <= 0

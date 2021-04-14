@@ -1,5 +1,6 @@
 from battle.Moves import moves
 from battle.pokeTypeList import *
+#all moves in one place
 #moves(name, power, type, accuracy, pp, class)
 
 bite = moves('bite', 60, dark, 100, 25, 'physical')

@@ -28,19 +28,22 @@ def main():
 
         elif display == "NAMEIT":
             display, pokeName, pokeGender = draw_nameIt(choosed_pokemon)
-            if pokeName == 'intro':
+            if pokeName.lower() == 'introcomp':
                 choosed_pokemon = introbot
             
         elif display == "BATTLE":
             bg_music = 'musica/battle.wav'
             Musica.musica(bg_music, 0.7)
-            display = draw_battle(choosed_pokemon, pokeGender)
+            display = draw_battle(choosed_pokemon, pokeName, pokeGender)
         
         elif display == 'WIN':
-            draw_win(choosed_pokemon)
+            display=draw_win(choosed_pokemon)
         
         elif display == 'LOSE':
-            draw_lose(choosed_pokemon)
+            display=draw_lose(choosed_pokemon)
+        
+        else:
+            display= draw_run()
 
 if __name__ == '__main__':
     main()

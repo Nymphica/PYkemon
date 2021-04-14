@@ -1,11 +1,14 @@
 from battle.pokemonList import *
 def attack(attacker, defender, move):
+    #setting the attack especifications variables
     strong = 0
     weak = 0
     ineffective = 0
+
+    #seeing if the attacker move is storng, weak or ineffective for the enemy
     if defender.pokeType == 'tuple':
         for pkType in defender.pokeType:
-            if pkType in move.moveType.strong:
+            if pkType in move.moveType.strong: 
                 strong += 1
             elif pkType in move.moveType.weak:
                 weak += 1
@@ -20,7 +23,7 @@ def attack(attacker, defender, move):
         elif defender.pokeType in move.moveType.ineffective:
             ineffective += 1
         
-    print(strong, weak)
+    #setting the move power modifier
     if ineffective >= 1:
         modifier = 0
     elif strong > weak:
@@ -29,17 +32,16 @@ def attack(attacker, defender, move):
         modifier = 0.5
     elif weak == strong:
         modifier = 1
+    
+    #setting the attack and defense attributes according if the move was physical or special
     if move.classe == 'physical':
         atk = attacker.atk
         defense = defender.defense
     elif move.classe == 'special':
         atk = attacker.spAtk
         defense = defender.spDefense
+
+    #setting the damage
     damage = 0.25*(((42*move.power*(atk/defense))/50 + 2) * modifier)
 
-    '''#take pp from the attacker(player)
-    for this_move in attacker.moves:
-        if this_move == move:
-            this_move.currentPP = 1 
-            print(f'move: {this_move.name} pp: ', this_move.currentPP)'''
     return damage, modifier

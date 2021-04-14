@@ -1,5 +1,7 @@
 from battle.movesList import *
 from battle.Pokemon import pokemon
+
+#a list of all pokemons in game
 #pokemon(name, moves, maxHp, atk, defense, spDefense, spAtk, speed, pokeType)
 
 blastoise1 = pokemon('BLASTOISE', (surf, bite, outrage, hyperbeam), 79, 83, 100, 105, 85, 78, ('water'))
@@ -17,5 +19,6 @@ charmander2 = pokemon('CHARMANDER', (megakick, ember, rockslide, inferno), 39, 5
 squirtle2 = pokemon('SQUIRTLE', (skullbash, hydropump, bite, watergun), 44, 48, 65, 64, 50, 43, ('water'))
 bulbasaur2 = pokemon('BULBASAUR', (tackle, bodyslam, vinewhip, solarbeam), 45, 49, 49, 65, 65, 45, ('grass', 'poison'))
 
+#two lists to avoid the same pokemon object for player and enemy
 pokemonList1 = [pikachu1, charmander1, squirtle1, bulbasaur1, blastoise1, charizard1]
 pokemonList2 = [pikachu2, charmander2, squirtle2, bulbasaur2, blastoise2, charizard2]

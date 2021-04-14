@@ -1,5 +1,5 @@
 class moves:
-    def __init__(self, name, power, moveType, accuracy, pp, classe): #nome, poder, tipo, accuracy, pp, classe(fisico, especial ou status)
+    def __init__(self, name, power, moveType, accuracy, pp, classe): #nome, poder, tipo, accuracy, pp, classe(fisico ou especial)
         self.__name = name
         self.__power = power
         self.__moveType = moveType
@@ -8,7 +8,7 @@ class moves:
         self.__currentPP = self.__pp
         self.__classe = classe
     
-    @property #getters para retornar valores das variaveis
+    @property #getters to return variable valures
     def name(self):
         return self.__name
 
@@ -36,6 +36,6 @@ class moves:
     def classe(self):
         return self.__classe
 
-    @currentPP.setter
+    @currentPP.setter #setting the current HP
     def currentPP(self, novoValor):
         self.__currentPP = novoValor
