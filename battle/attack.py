@@ -1,14 +1,34 @@
 from battle.pokemonList import *
 def attack(attacker, defender, move):
-    modifier = 0
-    for pkType in defender.pokeType:
-        if pkType in move.moveType.strong:
-            modifier += 1
-        elif pkType in move.moveType.weak:
-            modifier -=1
-        elif pkType in move.moveType.ineffective:
-            modifier = 0
-            break
+    strong = 0
+    weak = 0
+    ineffective = 0
+    if defender.pokeType == 'tuple':
+        for pkType in defender.pokeType:
+            if pkType in move.moveType.strong:
+                strong += 1
+            elif pkType in move.moveType.weak:
+                weak -=1
+            elif pkType in move.moveType.ineffective:
+                ineffective = 0
+                break
+    else:
+        if defender.pokeType in move.moveType.strong:
+            strong += 1
+        elif defender.pokeType in move.moveType.weak:
+            weak -=1
+        elif defender.pokeType in move.moveType.ineffective:
+            ineffective = 0
+        
+    print(strong, weak)
+    if ineffective >= 1:
+        modifier = 0
+    elif strong > weak:
+        modifier = 2
+    elif weak > strong:
+        modifier = 0.5
+    elif weak == strong:
+        modifier = 1
     if move.classe == 'physical':
         atk = attacker.atk
         defense = defender.defense

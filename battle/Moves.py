@@ -18,7 +18,7 @@ class moves:
 
     @property
     def moveType(self):
-        return self.power
+        return self.__moveType
 
     @property
     def accuracy(self):

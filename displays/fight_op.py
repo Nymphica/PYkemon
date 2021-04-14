@@ -5,10 +5,10 @@ import pygame as pg
 from time import sleep
 from battle.attack import attack
 
-def draw_moves(screen, pokemon, player, enemy, enemyIMG, width, height, pp_bar, text_bar):
+def draw_moves(screen, player1, player1IMG, player2, player2IMG, width, height, pp_bar, text_bar):
 
     labels=[]
-    for move in pokemon.moves:
+    for move in player1.moves:
         labels.append(move.name)
 
     bg_color = (255, 255, 255) #background color
@@ -36,7 +36,7 @@ def draw_moves(screen, pokemon, player, enemy, enemyIMG, width, height, pp_bar, 
         positions.append(position)
         buttons.append(Button(labels[i], button_dim, position, colors))
 
-    used_text = big_font.render(f'{pokemon.name} used',True, (255,255,255))
+    used_text = big_font.render(f'{player1.name} used',True, (255,255,255))
     used_text1 = big_font.render('',True, (255,255,255))
 
     on = True
@@ -46,11 +46,11 @@ def draw_moves(screen, pokemon, player, enemy, enemyIMG, width, height, pp_bar, 
     cycle = 0
     while on :
 
-        if enemyIMG.is_red:
+        if player2IMG.is_red:
             print('is red')
             sleep(0.001)
-            enemyIMG.back_img()
-            screen.blit( enemyIMG.origin, enemyIMG.pos )
+            player2IMG.back_img()
+            screen.blit( player2IMG.origin, player2IMG.pos )
             screen.blit( text_bar, (0,450) )
             screen.blit(used_text, (40,480))
             screen.blit(used_text1, (40,530))
@@ -58,12 +58,21 @@ def draw_moves(screen, pokemon, player, enemy, enemyIMG, width, height, pp_bar, 
 
         if is_text:
             sleep(1)
-            for move in pokemon.moves:
-                if move.name == choosed_move :
-                    print(move.name)
-                    print(move.power)
-                    damage = attack(pokemon, enemy, move)
-                return(damage)
+            for move in player1.moves:
+                if move.name == choosed_move:
+                    used_move = move
+                    damage, modifier = attack(player1, player2, move)
+                    if modifier != 1:
+                        if modifier == 2:
+                            text = "THAT WAS SUPER EFECCTIVE!"
+                        elif modifier == 0:
+                            text = "THAT WAS INEFFECTIVE!"
+                        efecctivenes = big_font.render(text,True, (255,255,255))
+                        screen.blit( text_bar, (0,450) )
+                        screen.blit(efecctivenes, (40,480))
+                        pg.display.flip()
+                        sleep(1)
+                    return(damage, modifier, used_move)
             on = False
 
         # defining cursor position:
@@ -122,9 +131,10 @@ def draw_moves(screen, pokemon, player, enemy, enemyIMG, width, height, pp_bar, 
                             choosed_move = button.label
                             print(move_name)
                             used_text1 = big_font.render(move_name,True, (255,255,255))
-                            enemyIMG.turn_red()
-                            player.shake()
+                            player2IMG.turn_red()
+                            player1IMG.shake()
                             player_attacked = True
+                            
         
         if cycle == 1: cycle = 0; is_text= True; print('change cycle')
 

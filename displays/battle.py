@@ -6,6 +6,7 @@ from random import randint #intreger random
 from displays.img import image
 from displays.fight_op import draw_moves
 from time import sleep
+from battle.lower_life import *
 
 def draw_battle(player1, pokeName):
     pg.init()
@@ -45,23 +46,27 @@ def draw_battle(player1, pokeName):
     bar_1 = pg.transform.scale(bar_1, (360,140))
 
     #grey bar
-    gry_bar = pg.image.load('sprites/battle_bg\gry_bar.png')
-    gry_bar = pg.transform.scale(gry_bar, (1,15))
+    grey_bar = pg.image.load('sprites/battle_bg\gry_bar.png')
+    grey_bar = pg.transform.scale(grey_bar, (1,13))#169, 13
+
+    #yellow bar
+    yellow_bar = pg.image.load('sprites/battle_bg\ylw_bar.png')
+    yellow_bar = pg.transform.scale(yellow_bar, (170, 13))
 
     #red bar
     red_bar = pg.image.load('sprites/battle_bg\Red_bar.png')
-    red_bar = pg.transform.scale(red_bar, (166,13))
+    red_bar = pg.transform.scale(red_bar, (170,13))
 
     #enemy
-    enemy = pokemonList[randint(0, len(pokemonList) - 1)]
-    enemyIMG = pg.image.load(enemy.pokeSprite[1])
+    player2 = pokemonList[randint(0, len(pokemonList) - 1)]
+    player2IMG = pg.image.load(player2.pokeSprite[1])
     pos, scale=(430, 0), (330,330)
-    enemyIMG = image("enemy",enemyIMG, pos, scale, screen)
+    player2IMG = image("enemy",player2IMG, pos, scale, screen)
 
     #player
-    player = pg.image.load(player1.pokeSprite[0])
+    player1IMG = pg.image.load(player1.pokeSprite[0])
     pos, scale= (0, 160), (290,290)
-    player = image("player", player, pos, scale, screen)
+    player1IMG = image("player", player1IMG, pos, scale, screen)
 
     colors = ((55, 55, 55), (0, 0, 0))
     button_dim = (width // 5 + 15, height // 15)
@@ -97,13 +102,15 @@ def draw_battle(player1, pokeName):
     pg.display.set_icon(icon)
 
     attacked = False
-    enemy_life_bar =gry_bar
+    player1_life_bar = [grey_bar, 1, (584 + 169, 358)]
+    player2_life_bar = [grey_bar, 1, (156 + 169, 108)]
     you_win=False
     actual_damage = 0
     running=True
+    life_bar_percent = 169
     while running:
 
-        if you_win: sleep(2); pg.quit()
+        '''if you_win: sleep(2); pg.quit()
 
         if attacked:
             while damage[0] > 0:
@@ -127,18 +134,26 @@ def draw_battle(player1, pokeName):
                 enemy_life_bar = pg.transform.scale(red_bar, (actual_damage-166,15))
 
             print(actual_damage, enemy_life_bar)
-            attacked = False
+            attacked = False'''
 
 
         screen.blit( bg, (0,0) )
-        screen.blit( enemyIMG.img, enemyIMG.pos )
-        screen.blit( player.img, player.pos )
+        screen.blit( player2IMG.img, player2IMG.pos )
+        screen.blit( player1IMG.img, player1IMG.pos )
         screen.blit( bar_2, (420,280) )
         screen.blit( bar_1, (10,30) )
         screen.blit( text_bar, (0,450) )
         screen.blit( options, (400,450) )
-        screen.blit( enemy_life_bar, (153,108) )
-        screen.blit( red_bar, (587,358) )
+        if player1.hpPercent < 33:
+            screen.blit(red_bar, (584, 358))
+        elif player1.hpPercent < 66:
+            screen.blit(yellow_bar, (584, 358))
+        if player2.hpPercent < 33:
+            screen.blit(red_bar, (156, 108))
+        elif player2.hpPercent < 66:
+            screen.blit(yellow_bar, (156, 108))
+        screen.blit( player2_life_bar[0], (156 + 169 - player2_life_bar[1],108) )#156, 108
+        screen.blit( player1_life_bar[0], (584 + 169 - player1_life_bar[1], 358) )#584, 358
 
         screen.blit(do_text1, (40,480))
         screen.blit(do_text2, (40,530))
@@ -200,14 +215,17 @@ def draw_battle(player1, pokeName):
                                 return("MENU") # (temporario) return to menu to choose other pokemon
 
                             elif choosed_action == "RUN": #if run choose other enemy
-                                enemy = pokemonList[randint(0, len(pokemonList) - 1)]
-                                newEnemyIMG = pg.image.load(enemy.pokeSprite[1])#(f'displays/imgs/front/{pokelistIMG[randint(0,3)]}.png')
-                                enemyIMG.img = newEnemyIMG
+                                player2 = pokemonList[randint(0, len(pokemonList) - 1)]
+                                newEnemyIMG = pg.image.load(player2.pokeSprite[1])#(f'displays/imgs/front/{pokelistIMG[randint(0,3)]}.png')
+                                player2IMG.img = newEnemyIMG
 
                             elif choosed_action == "FIGHT":
-                                damage = draw_moves(screen, player1, player, enemy, enemyIMG, width, height, pp_bar, text_bar)
-                                attacked = True
-
+                                damage, modifier, used_move = draw_moves(screen, player1, player1IMG, player2, player2IMG, width, height, pp_bar, text_bar)
+                                print("dano", damage)
+                                player2.currentHp -= damage
+                                if player2.isFainted():
+                                    print("No céu tem pao?")
+                                player2_life_bar[0], player2_life_bar[1] = lower_life(screen, player2.hpPercent, player2_life_bar, life_bar_percent)
 
                             running_menu = False
                             break
