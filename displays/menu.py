@@ -32,22 +32,22 @@ def draw_menu():
     pokeTypes = []
     labels = []
     #loop for button creation
-    for i in range(len(pokemonList)):
+    for i in range(len(pokemonList1)):
         position = (origin[0] - button_dim[0]//2, origin[1] + button_dim[1] * (i - 3))
         positions.append(position)
-        label = pokemonList[i].name
+        label = pokemonList1[i].name
         labels.append(label)
         buttons.append(Button(label, button_dim, position, colors))
-        pokemon = pg.image.load(pokemonList[i].pokeSprite[1])
+        pokemon = pg.image.load(pokemonList1[i].pokeSprite[1])
         pokemon = pg.transform.scale(pokemon, (350, 350))
         pokeSprites.append(pokemon)
 
-        moves = pokemonList[i].moves
+        moves = pokemonList1[i].moves
         pokeMoves.append(moves)
-        pokemaxHp.append(pokemonList[i].maxHp)
+        pokemaxHp.append(pokemonList1[i].maxHp)
         #if it has 2 types, take the first
-        if len(pokemonList[i].pokeType[0]) > 2 : pokeTypes.append(pokemonList[i].pokeType[0])
-        else: pokeTypes.append(pokemonList[i].pokeType)
+        if len(pokemonList1[i].pokeType[0]) > 2 : pokeTypes.append(pokemonList1[i].pokeType[0])
+        else: pokeTypes.append(pokemonList1[i].pokeType)
 
     cursor = 0
 
@@ -90,7 +90,7 @@ def draw_menu():
                     for button in buttons:
                         if cursor_position in button:
                                 indButton = labels.index(button.label)
-                                playerPokemon = pokemonList[indButton]
+                                playerPokemon = pokemonList1[indButton]
                                 print('choosed pokemon: ',playerPokemon.name)
                                 return(playerPokemon, "NAMEIT")
                                 running_menu = False
@@ -116,7 +116,7 @@ def draw_menu():
 
                 screen.blit(typeTxt, (420, 430))
 
-                for poke in pokemonList:
+                for poke in pokemonList1:
                     if poke.name == button.label:
                         if 'fire' in poke.pokeType:
                             button.alternative_color = (255, 0, 0)

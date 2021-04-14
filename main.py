@@ -4,7 +4,7 @@ from displays.allDisplays import *
 pygame.init()
 
 theme = 'musica\AfireRedAbertura.wav'#coloca o tema de abertura para tocar
-Musica.musica(theme, 0)
+Musica.musica(theme, 0.7)
 def main():
     pygame.joystick.init()
     print(pygame.joystick.get_count())
@@ -30,7 +30,7 @@ def main():
             
         elif display == "BATTLE":
             bg_music = 'musica/battle.wav'
-            Musica.musica(bg_music, 0)
+            Musica.musica(bg_music, 0.7)
             display = draw_battle(choosed_pokemon, pokeGender)
         
         elif display == 'WIN':

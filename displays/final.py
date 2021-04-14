@@ -51,7 +51,7 @@ def draw_lose(pokemon):
     screen.blit(lose, (250,200))
 
     pokeimg = pg.image.load(pokemon.pokeSprite[1])
-    image('player', pokeimg, (200, 300), (350, 350), screen)
+    pokeimg = image('player', pokeimg, (200, 300), (350, 350), screen)
     pokeimg.drop_bright()
     screen.blit(pokeimg.img, pokeimg.pos)
 

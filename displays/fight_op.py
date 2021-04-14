@@ -36,8 +36,8 @@ def draw_moves(player, player1, player1IMG, player2, player2IMG, text_bars, scre
 
     if player == 'player2':
 
-        #invert player2 for the player1 img
-        player2IMG = pg.image.load(playerPoke.pokeSprite[1])
+        '''#invert player2 for the player1 img
+        player2IMG = pg.image.load(player1.pokeSprite[1])
         pos, scale=(430, 0), (290,290)
         player2IMG = image("player2",player2IMG, pos, scale, screen)
         #invert the player1 img for the player2 img
@@ -49,11 +49,11 @@ def draw_moves(player, player1, player1IMG, player2, player2IMG, text_bars, scre
         print('INVERT','-'*20, '\nplayer:',player.name, 'player2:', player2.name)
         invert = player1
         player1 = player2
-        player2 = invert
+        player2 = invert'''
 
         print('player1:',player1.name, 'player2:', player2.name)
 
-        used_text = big_font.render(f'{player1.name} used',True, (255,255,255))
+        used_text = big_font.render(f'{player2.name} used',True, (255,255,255))
         used_text1 = big_font.render('',True, (255,255,255))
 
         on = True
@@ -64,13 +64,66 @@ def draw_moves(player, player1, player1IMG, player2, player2IMG, text_bars, scre
         cursor = 0
 
         cycle = 0
+
+        choosed_move = player2.moves[randint(0,3)]
+        print(choosed_move.name)
+        used_text1 = big_font.render(f'{choosed_move.name}!',True, (255,255,255))
+
+        screen.blit( bg, (0,0) )
+        player1IMG.turn_red()
+        player1IMG.shake()
+        screen.blit( bar_2, (420,280) )
+        screen.blit( bar_1, (10,30) )
+        screen.blit( text_bar, (0,450) )
+
+        #enemy info
+        screen.blit(eName, (27,55))
+        screen.blit(eLevel, (310,55))
+        screen.blit(eGender, (245,50))
+        #player info
+        screen.blit(pName, (470,310))
+        screen.blit(pokeGender, (675,305))
+        screen.blit(pLevel, (735,310))
+        screen.blit(pPp, (630,377))
+
+        print('is red')
+        sleep(0.01)
+        player1IMG.back_img()
+        screen.blit( player1IMG.origin, player1IMG.pos )
+        screen.blit( text_bar, (0,450) )
+        screen.blit(used_text, (40,480))
+        screen.blit(used_text1, (40,530))
+        cycle=1
+
+        sleep(1)
+        for move in player2.moves:
+            if move == choosed_move :
+                print(move.name)
+                print(move.power)
+                move = choosed_move
+                damage, modifier = attack(player2, player1, move)
+                if modifier != 1:
+                    if modifier == 2:
+                        text = "THAT WAS SUPER EFECCTIVE!"
+                    elif modifier == 0:
+                        text = "THAT WAS INEFFECTIVE!"
+                    elif modifier == 0.5:
+                        text = "THAT WASN'T VERY EFFECTIVE"
+                    efecctivenes = big_font.render(text,True, (255,255,255))
+                    screen.blit( text_bar, (0,450) )
+                    screen.blit(efecctivenes, (40,480))
+                    pg.display.flip()
+                    sleep(1)
+                return(damage, move)
+
+        '''player_attacked = True
         while on :
 
-            if player2IMG.is_red:
+            if player1IMG.is_red:
                 print('is red')
                 sleep(0.01)
-                player2IMG.back_img()
-                screen.blit( player2IMG.origin, player2IMG.pos )
+                player1IMG.back_img()
+                screen.blit( player1IMG.origin, player1IMG.pos )
                 screen.blit( text_bar, (0,450) )
                 screen.blit(used_text, (40,480))
                 screen.blit(used_text1, (40,530))
@@ -78,22 +131,35 @@ def draw_moves(player, player1, player1IMG, player2, player2IMG, text_bars, scre
 
             if is_text:
                 sleep(1)
-                for move in player1.moves:
+                for move in player2.moves:
                     if move == choosed_move :
                         print(move.name)
                         print(move.power)
-                        damage = attack(player1, player2, move)
+                        damage, used_move = attack(player2, player1, move)
+                        if modifier != 1:
+                            if modifier == 2:
+                                text = "THAT WAS SUPER EFECCTIVE!"
+                            elif modifier == 0:
+                                text = "THAT WAS INEFFECTIVE!"
+                            elif modifier == 0.5:
+                                text = "THAT WASN'T VERY EFFECTIVE"
+                            efecctivenes = big_font.render(text,True, (255,255,255))
+                            screen.blit( text_bar, (0,450) )
+                            screen.blit(efecctivenes, (40,480))
+                            pg.display.flip()
+                            sleep(1)
+                        return(damage, used_move)
                 on = False
 
             if not player_attacked:
 
-                choosed_move = player1.moves[randint(0,3)]
+                choosed_move = player2.moves[randint(0,3)]
                 print(choosed_move.name)
                 used_text1 = big_font.render(f'{choosed_move.name}!',True, (255,255,255))
 
                 screen.blit( bg, (0,0) )
-                enemyIMG.turn_red()
-                playerIMG.shake()
+                player2IMG.turn_red()
+                player1IMG.shake()
                 screen.blit( bar_2, (420,280) )
                 screen.blit( bar_1, (10,30) )
                 screen.blit( text_bar, (0,450) )
@@ -108,7 +174,7 @@ def draw_moves(player, player1, player1IMG, player2, player2IMG, text_bars, scre
                 screen.blit(pLevel, (735,310))
                 screen.blit(pPp, (630,377))
 
-                player_attacked = True
+                player_attacked = True'''
 
 
     if player == 'player1':
