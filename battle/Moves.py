@@ -38,4 +38,4 @@ class moves:
 
     @currentPP.setter
     def currentPP(self, novoValor):
-        self.currentPP = novoValor
+        self.__currentPP = self.__currentPP - novoValor

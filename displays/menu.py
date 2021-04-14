@@ -7,10 +7,13 @@ def draw_menu():
     res = (800, 600) #resolution
     screen = pg.display.set_mode(res)
     pg.display.set_caption("Menu")
+    icon = pg.image.load('icon.png')# window icon
+    pg.display.set_icon(icon)
     width = screen.get_width()
     height = screen.get_height()
 
     font = pg.font.Font('displays/font.ttf', height // 20)
+    tiny_font = pg.font.Font('displays/font.ttf', height // 43)
 
     # general button configuration:
     colors = ((55, 55, 55), (0,0,0))
@@ -19,8 +22,16 @@ def draw_menu():
 
     buttons = []
     positions = []
+    movePositions=[(400, 520), (475, 550)]
+    hpPosition= (475, 470)
+    typePosition = (570, 430)
+    typeTxt = font.render('Type:',True, (255,255,255))
     pokeSprites = []
+    pokeMoves =[]
+    pokemaxHp =[]
+    pokeTypes = []
     labels = []
+    #loop for button creation
     for i in range(len(pokemonList)):
         position = (origin[0] - button_dim[0]//2, origin[1] + button_dim[1] * (i - 3))
         positions.append(position)
@@ -31,14 +42,18 @@ def draw_menu():
         pokemon = pg.transform.scale(pokemon, (350, 350))
         pokeSprites.append(pokemon)
 
+        moves = pokemonList[i].moves
+        pokeMoves.append(moves)
+        pokemaxHp.append(pokemonList[i].maxHp)
+        #if it has 2 types, take the first
+        if len(pokemonList[i].pokeType[0]) > 2 : pokeTypes.append(pokemonList[i].pokeType[0])
+        else: pokeTypes.append(pokemonList[i].pokeType)
+
     cursor = 0
 
     choose_text = font.render('Choose your Pokemon:',True, (255,255,255))
 
-    player1 = "NONE"
-
-    icon = pg.image.load('icon.png')# window icon
-    pg.display.set_icon(icon)
+    playerPokemon = "NONE"
 
     running_menu=True
 
@@ -75,9 +90,9 @@ def draw_menu():
                     for button in buttons:
                         if cursor_position in button:
                                 indButton = labels.index(button.label)
-                                player1 = pokemonList[indButton]
-                                print(player1)
-                                return(player1, "NAMEIT")
+                                playerPokemon = pokemonList[indButton]
+                                print('choosed pokemon: ',playerPokemon.name)
+                                return(playerPokemon, "NAMEIT")
                                 running_menu = False
                                 break
                                 
@@ -90,17 +105,36 @@ def draw_menu():
             if cursor_position in button:
                 indButton = labels.index(button.label)
                 screen.blit(pokeSprites[indButton], (440, 70))
+
+                hp = font.render(f'HP: {pokemaxHp[indButton]}',True, (255,255,255))
+                screen.blit(hp, hpPosition)
+
+                moves = tiny_font.render(f'moves: {pokeMoves[indButton][0].name}, {pokeMoves[indButton][1].name}',True, (255,255,255))
+                screen.blit(moves, movePositions[0])
+                moves1 = tiny_font.render(f'{pokeMoves[indButton][2].name}, {pokeMoves[indButton][3].name}',True, (255,255,255))
+                screen.blit(moves1, movePositions[1])
+
+                screen.blit(typeTxt, (420, 430))
+
                 for poke in pokemonList:
-                    if button.label == poke.name:
+                    if poke.name == button.label:
                         if 'fire' in poke.pokeType:
                             button.alternative_color = (255, 0, 0)
+                            Type = (font.render(f'{pokeTypes[indButton]}',True, (255,0,0)))
+                            screen.blit(Type, typePosition)
                         elif 'water' in poke.pokeType:
                             button.alternative_color = (0, 0, 255)
+                            Type = (font.render(f'{pokeTypes[indButton]}',True, (0,0,255)))
+                            screen.blit(Type, typePosition)
                         elif 'grass' in poke.pokeType:
                             button.alternative_color = (0, 255, 0)
+                            Type = (font.render(f'{pokeTypes[indButton]}',True, (0,255,0)))
+                            screen.blit(Type, typePosition)
                         elif 'electric' in poke.pokeType:
                             button.alternative_color = (255, 215, 0)
-                
+                            Type = (font.render(f'{pokeTypes[indButton]}',True, (255,215,0)))
+                            screen.blit(Type, typePosition)
+                    
                 draw_button(screen, button, bg_color,(255,255,255), font, True)
             else:
                 draw_button(screen, button, bg_color,(255,255,255), font)

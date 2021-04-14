@@ -1,3 +1,31 @@
+13/04 Nymphica
+
+# tela de inicio
+
+# informações base dos pokemons no menu de seleção
+
+# especificações do inimigo e jogador na tela de batalha
+
+# musica tema do fundo de batalha
+
+# informações dos ataques na tela de escolha de ataques
+
+# correção de bugs na animação de ataque
+
+# animação e lógica de turnos
+
+# telas finais de "você ganhou!" e "você perdeu!"
+
+# A batalha ainda está um pouco crua
+
+# ainda com os milhões de prints no terminal pra acompanhar o processo XD
+
+12/04 Nymphica
+
+#adicionada tela inicial
+
+#adicionado genero aleatoria do inimigo e jogador
+
 06/04 Nymphica (again)
 
 # meu cerebro is not working, eu fiz umas alterações mas amanhã eu resgistro.

@@ -5,10 +5,11 @@ from displays.button import *
 from random import randint #intreger random
 from displays.img import image
 from displays.fight_op import draw_moves
+from displays.moveLifeBar import draw_lifebar
 from time import sleep
 from battle.lower_life import *
 
-def draw_battle(player1, pokeName):
+def draw_battle(player1, pokeGender):
     pg.init()
 
     bg_color = (55, 55, 55) #background color
@@ -18,7 +19,8 @@ def draw_battle(player1, pokeName):
     width = screen.get_width() #screen width
     height = screen.get_height() #screen height
 
-    font = pg.font.Font('displays/font.ttf', height // 30) 
+    font = pg.font.Font('displays/font.ttf', height // 30)
+    med_font = pg.font.Font('displays/font.ttf', height // 25) 
     big_font = pg.font.Font('displays/font.ttf', height // 20) 
     
     #background
@@ -29,13 +31,15 @@ def draw_battle(player1, pokeName):
     pp_bar = pg.image.load('sprites/battle_bg\pp_bar.png')
     pp_bar = pg.transform.scale(pp_bar, (800,150))
 
-    #options FIGHT/RUN/ETC bar
-    options = pg.image.load('sprites/battle_bg\Fgt_options.png')
-    options = pg.transform.scale(options, (400,150))
-
     #text bar
     text_bar = pg.image.load('sprites/battle_bg\Text_bar.png')
     text_bar = pg.transform.scale(text_bar, (800,150))
+
+    text_bars = [pp_bar, text_bar]
+
+    #options FIGHT/RUN/ETC bar
+    options = pg.image.load('sprites/battle_bg\Fgt_options.png')
+    options = pg.transform.scale(options, (400,150))
 
     #Second pokemon bar
     bar_2 = pg.image.load('sprites/battle_bg\Bar_2.png')
@@ -53,20 +57,27 @@ def draw_battle(player1, pokeName):
     yellow_bar = pg.image.load('sprites/battle_bg\ylw_bar.png')
     yellow_bar = pg.transform.scale(yellow_bar, (170, 13))
 
+    #yellow bar
+
+    ylw_bar =pg.image.load('sprites/battle_bg\ylw_bar.png')
+    ylw_bar = pg.transform.scale(ylw_bar, (1,15))
+
     #red bar
     red_bar = pg.image.load('sprites/battle_bg\Red_bar.png')
     red_bar = pg.transform.scale(red_bar, (170,13))
 
-    #enemy
+    life_bars = [grey_bar, ylw_bar, red_bar]
+
+    #player2
     player2 = pokemonList[randint(0, len(pokemonList) - 1)]
     player2IMG = pg.image.load(player2.pokeSprite[1])
     pos, scale=(430, 0), (330,330)
-    player2IMG = image("enemy",player2IMG, pos, scale, screen)
+    player2IMG = image("player2",player2IMG, pos, scale, screen)
 
     #player
     player1IMG = pg.image.load(player1.pokeSprite[0])
     pos, scale= (0, 160), (290,290)
-    player1IMG = image("player", player1IMG, pos, scale, screen)
+    player1IMG = image("player1", player1IMG, pos, scale, screen)
 
     colors = ((55, 55, 55), (0, 0, 0))
     button_dim = (width // 5 + 15, height // 15)
@@ -76,17 +87,20 @@ def draw_battle(player1, pokeName):
     positions = []
     labels = ['FIGHT', 'POKEMON', 'BAG', 'RUN']
 
+    #loop for creating buttons
     for i in range(len(labels)):
+        #position (x,y)
         if  i==0 :
             position = (origin[0] - button_dim[0]//2, origin[1] - button_dim[1] * 2)
         elif i==1:
             position = (origin[0] - button_dim[0]//2, origin[1] - button_dim[1] + 10)
         if  i==2 :
-            position = (origin[0] + button_dim[0]//2, origin[1] - button_dim[1] * 2)
+            position = (origin[0] + button_dim[0]//1.7, origin[1] - button_dim[1] * 2)
         elif i==3:
-            position = (origin[0] + button_dim[0]//2, origin[1] - button_dim[1] + 10)
+            position = (origin[0] + button_dim[0]//1.7, origin[1] - button_dim[1] + 10)
 
         positions.append(position)
+
         buttons.append(Button(labels[i], button_dim, position, colors))
 
     cursor = 0
@@ -96,7 +110,22 @@ def draw_battle(player1, pokeName):
     screen.fill((255,255,255)) #Screen color background
 
     do_text1 = big_font.render('WHAT WILL',True, (255,255,255))
-    do_text2 = big_font.render(f'{pokeName} DO?',True, (255,255,255))
+    do_text2 = big_font.render(f'{player1.name} DO?',True, (255,255,255))
+
+    Mgender = big_font.render(f'♂',True, (0,0,255)) # pokemon male gender
+    Fgender = big_font.render(f'♀',True, (255,0,0)) # pokemon female gender
+
+    genders = [Mgender, Fgender] #gender list
+
+    eName = med_font.render(f'{player2.name}',True, (55,55,55)) #enemy name
+    eGender = genders[randint(0, 1)] #enemy gender
+    eLevel = med_font.render('100',True, (55,55,55)) #enemy level
+    eInfo = [eName, eGender, eLevel]
+
+    pName = med_font.render(f'{player1.name}',True, (55,55,55)) #player name
+    pLevel = med_font.render('100',True, (55,55,55)) #player level
+    pPp = med_font.render('20/20',True, (55,55,55)) #player pp (actualy i dont know what it is but there it is)
+    pInfo = [pName, pLevel, pPp, pokeGender]
 
     icon = pg.image.load('icon.png')# window icon
     pg.display.set_icon(icon)
@@ -158,7 +187,13 @@ def draw_battle(player1, pokeName):
         screen.blit(do_text1, (40,480))
         screen.blit(do_text2, (40,530))
 
-
+        screen.blit(eName, (27,55))
+        screen.blit(eLevel, (310,55))
+        screen.blit(eGender, (245,50))
+        screen.blit(pName, (470,310))
+        screen.blit(pokeGender, (675,305))
+        screen.blit(pLevel, (735,310))
+        screen.blit(pPp, (630,377))
 
         # defining cursor position:
         cursor_position_shifted = positions[cursor] #from each button possition
@@ -218,14 +253,29 @@ def draw_battle(player1, pokeName):
                                 player2 = pokemonList[randint(0, len(pokemonList) - 1)]
                                 newEnemyIMG = pg.image.load(player2.pokeSprite[1])#(f'displays/imgs/front/{pokelistIMG[randint(0,3)]}.png')
                                 player2IMG.img = newEnemyIMG
+                                eName = med_font.render(f'{player2.name}',True, (55,55,55))
+                                eGender = genders[randint(0, 1)]
+                                eInfo = [eName, eGender, eLevel]
 
                             elif choosed_action == "FIGHT":
-                                damage, modifier, used_move = draw_moves(screen, player1, player1IMG, player2, player2IMG, width, height, pp_bar, text_bar)
+                                damage, used_move = draw_moves('player1', player1, player1IMG, player2, player2IMG, text_bars, screen, pInfo, eInfo)
+                                #damage, modifier, used_move = draw_moves(screen, player1, player1IMG, player2, player2IMG, width, height, pp_bar, text_bar)
                                 print("dano", damage)
                                 player2.currentHp -= damage
-                                if player2.isFainted():
-                                    print("No céu tem pao?")
                                 player2_life_bar[0], player2_life_bar[1] = lower_life(screen, player2.hpPercent, player2_life_bar, life_bar_percent)
+                                #draw the attack options and attack the player2
+                                #draw_moves('player1', pokeName, player1, player1IMG, player2, player2IMG, text_bars, screen, pInfo, eInfo)
+                                #in case the player1 or player2 is dead
+                                if player2.isFainted(): return('WIN'); pygame.quit() ; running = False
+                                if player1.isFainted(): return('LOSE') ; pygame.quit() ; running = False
+                                #redraw the enemy life bar
+                                #draw_lifebar(player2.hpPercent ,'player2', screen, life_bars, player2_life_bar, player1_life_bar)
+                                #make the enemy attack the player with an aleatory move
+                                #draw_moves('player2', player2.name, player1, player1IMG, player2, player2IMG, text_bars, screen, pInfo, eInfo)
+
+
+                                #redraw the player1 life bar
+                                #draw_lifebar(player1.hpPercent, 'player1', screen, life_bars, player2_life_bar, player1_life_bar)
 
                             running_menu = False
                             break

@@ -8,7 +8,7 @@ def attack(attacker, defender, move):
             if pkType in move.moveType.strong:
                 strong += 1
             elif pkType in move.moveType.weak:
-                weak -=1
+                weak += 1
             elif pkType in move.moveType.ineffective:
                 ineffective = 0
                 break
@@ -16,7 +16,7 @@ def attack(attacker, defender, move):
         if defender.pokeType in move.moveType.strong:
             strong += 1
         elif defender.pokeType in move.moveType.weak:
-            weak -=1
+            weak += 1
         elif defender.pokeType in move.moveType.ineffective:
             ineffective = 0
         
@@ -36,4 +36,10 @@ def attack(attacker, defender, move):
         atk = attacker.spAtk
         defense = defender.spDefense
     damage = ((42*move.power*(atk/defense))/50 + 2) * modifier
-    return(damage, modifier)
+
+    '''#take pp from the attacker(player)
+    for this_move in attacker.moves:
+        if this_move == move:
+            this_move.currentPP = 1 
+            print(f'move: {this_move.name} pp: ', this_move.currentPP)'''
+    return damage, modifier
