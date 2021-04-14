@@ -10,7 +10,7 @@ def attack(attacker, defender, move):
             elif pkType in move.moveType.weak:
                 weak += 1
             elif pkType in move.moveType.ineffective:
-                ineffective = 0
+                ineffective += 1
                 break
     else:
         if defender.pokeType in move.moveType.strong:
@@ -18,7 +18,7 @@ def attack(attacker, defender, move):
         elif defender.pokeType in move.moveType.weak:
             weak += 1
         elif defender.pokeType in move.moveType.ineffective:
-            ineffective = 0
+            ineffective += 1
         
     print(strong, weak)
     if ineffective >= 1:

@@ -27,3 +27,9 @@ bodyslam = moves('body slam', 85, normal, 100, 15, 'physical')
 hydropump = moves('hydro pump', 110, water, 80, 5, 'physical')
 watergun = moves('water gun', 40, water, 100, 20, 'physical')
 skullbash = moves('skull bash', 130, normal, 100, 10, 'physical')
+
+#introbot
+armario = moves('armário', 90, introcomp, 100, 5, 'physical')
+aula04 = moves('aula 04', 130, introcomp, 100, 5, 'special')
+feedback = moves('feedback', 150, introcomp, 100, 5, 'special')
+beberagua = moves('beber água', 0, introcomp, 100, 5, 'special')

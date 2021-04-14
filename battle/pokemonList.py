@@ -8,6 +8,7 @@ pikachu1 = pokemon('PIKACHU', (thundershock, brickbreak, thief, thunderbolt), 35
 charmander1 = pokemon('CHARMANDER', (megakick, ember, rockslide, inferno), 39, 52, 43, 50, 60, 65, ('fire'))
 squirtle1 = pokemon('SQUIRTLE', (skullbash, hydropump, bite, watergun), 44, 48, 65, 64, 50, 43, ('water'))
 bulbasaur1 = pokemon('BULBASAUR', (tackle, bodyslam, vinewhip, solarbeam), 45, 49, 49, 65, 65, 45, ('grass', 'poison'))
+introbot = pokemon('INTROBOT', (armario, aula04, beberagua, feedback), 250, 100, 100, 100, 100, 150, ('introcomp'))
 
 blastoise2 = pokemon('BLASTOISE', (surf, bite, outrage, hyperbeam), 79, 83, 100, 105, 85, 78, ('water'))
 charizard2 = pokemon('CHARIZARD', (dragonclaw, flamethrower, megapunch, aerialace), 78, 84, 78, 85, 109, 100, ('fire', 'fliyng'))

@@ -1,6 +1,7 @@
 import pygame
 from musica import Musica
 from displays.allDisplays import *
+from battle.pokemonList import *
 pygame.init()
 
 theme = 'musica\AfireRedAbertura.wav'#coloca o tema de abertura para tocar
@@ -27,6 +28,8 @@ def main():
 
         elif display == "NAMEIT":
             display, pokeName, pokeGender = draw_nameIt(choosed_pokemon)
+            if pokeName == 'intro':
+                choosed_pokemon = introbot
             
         elif display == "BATTLE":
             bg_music = 'musica/battle.wav'
