@@ -1,109 +1,17 @@
-13/04 Nymphica
+#Observações sobre o trabalho
 
-# tela de inicio
+bugs que restaram:
+    -barra de vida e vida/vida no fight_op
+    -animação de turn_red e shake no turno do inimigo
 
-# informações base dos pokemons no menu de seleção
+funções que faltaram: :/
+    -poções/mochila
+    -pokemons shiny
 
-# especificações do inimigo e jogador na tela de batalha
+easter eggs:
+    -caso o nome escolhido para o pokemon seja 'intro' entao o usuario tera acesso a um pokemon secreto com
+um tipo exclusivo
+    -para aqueles que gostam de procurar coisas escondidas no código do jogo, há um sprite do Marco como
+treinador pokemon na pasta sprites!
 
-# musica tema do fundo de batalha
-
-# informações dos ataques na tela de escolha de ataques
-
-# correção de bugs na animação de ataque
-
-# animação e lógica de turnos
-
-# telas finais de "você ganhou!" e "você perdeu!"
-
-# A batalha ainda está um pouco crua
-
-# ainda com os milhões de prints no terminal pra acompanhar o processo XD
-
-12/04 Nymphica
-
-#adicionada tela inicial
-
-#adicionado genero aleatoria do inimigo e jogador
-
-06/04 Nymphica (again)
-
-# meu cerebro is not working, eu fiz umas alterações mas amanhã eu resgistro.
-
-#estou atualizando apenas para não dar problema de merge de novo.
-
-06/04 Nymphica
-
-#vi que mudou as imagens de lugar então coloquei todas em sprites/pokemon/Back-front
-editei as imagens para ficarem sem bordas
-o background de batalha tambem foi para sprites/battle_bg
-
-#coloquei a música na pasta musica
-
-#resumi o .format do pokeSprite
-
-#usei a automação do oCara pra voltar com os botões coloridos do menu de seleção,
-agora de acordo com o tipo de pokemon a cor do botão muda (** )
-
-#Adicionei o pikachu, charmander, squirtle e bulbasaur para arrumar a tela de menu
-com 6 pokemons (deixei mais espaço para colocar as especificações deles embaixo)
-e testar algumas outras funções, não estão configurados foi só de teste mesmo
-
-#apaguei os meus antigos codigos que estavam comentados pois já tenho eles guardados ;)
-
-05/04 Nymphica
-#criação do arquivo img com a classe image para edição por meio de funções e
-organização dos displays.
-
-#criadas as funções de:
-
--aumentar brilho da imagem
-(talvez usemos, talvez não, na dúvida eu deixei)
-
--diminuir o brilho da imagem
-(podemos usar para mostrar quais pokemons estão indisponiveis)
-
--avermelhar a imagem
-(para quando o pokemon recebe dano)
-
--voltar a imagem ao normal
-
-#ao selecionar FIGHT na tela de batalha o inimigo fica avermelhado indicando dano,
-mesmo se o pokemon mudar atráves do Run. O player balança.
-
-# Ainda tem um grande problema em avermelhar a imagem do gastly e ele tambem não
-cabe direito no display quando é o player então eu o esclui.
-
-#adicionado texto "What {nome escolhido para o pokemon} will do?"
-
-#amanhã adicionarei o restante dos textos e animações.
-
-03/04 Nymphica
-
-#criação do arquivo de relatório, para adicionar um relátorio adicione um paragráfo
-acima, de forma que o relatório mais recente fique por cima. livre pra deixar TUDO
-resgitrado, até as sofrências.
-
-#Organização dos displays, especificação das imagens dos pokemons com front e back
-
-#finalmente consegui fazer a transação entre as telas =')
-
-#mudei o pygame por pg em alguns arquivos tem um aviso na primeira linha ;)
-
-#também consegui fazer tudo rodar pela main =')
-
-#1º tela - MENU | 5 pokemons para escolha, o gastly ta ali porque é o unico que eu 
-consegui pensar que não fosse representado pelas outras cores XD O nome do pokemon
-é printado no terminal
-
-#2º tela - NAMEIT | Não é necessária, só fiz por capricho porque gosto de dar nome 
-aos bicinho XD mas se quiser podemos tirar, depois de dar enter o nome é printado
-no terminal
-
-#3º tela - BATTLE | Com 4 opções :
-1- Fight = por enquanto só print no terminal
-2- Pokemon = por enquanto volta a tela de escolha do pokemon
-3- Bag = só print
-4- Run = outro inimigo aleatório
-
-Por hoje é só p pp pessoal! 
+E isso é tudo, pepepepessoal!

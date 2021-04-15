@@ -44,18 +44,15 @@ def draw_nameIt(player1):
 
             elif event.type == pg.KEYDOWN:
                 if event.key == pg.K_RETURN: #if ENTER
-                    if text != '': #if it has a name
-                        running_name = False #done
+                    if text == '': #if it has a name
+                        text = player1.name
+                    running_name = False #done
 
                 elif event.key == pg.K_BACKSPACE: #if BACKSPACE take off the last letter
                         text = text[:-1]
                 else:
                         if len(text) < 5 : #else if the name length is less than 5 
-                            if not 'intro' in text.lower(): # if it is NOT 'intro' (from introcomp)
-                                text += event.unicode # add the letter
-                        elif 'intro' in text.lower(): # else let it write til the name length is 9
-                            if len(text) < 9:
-                                text += event.unicode
+                            text += event.unicode # add the letter
 
         txt_surface = font.render(text, True, (255,255,255)) #the txt surface
         screen.blit(txt_surface, (input_box.x+38, input_box.y+5)) #putting the txt on display

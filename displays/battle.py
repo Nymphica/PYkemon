@@ -147,6 +147,11 @@ def draw_battle(player1, pokeName, pokeGender):
     #setting the life bar percent
     life_bar_percent = 169
 
+    if player1.speed > player2.speed:#decide quem inicia o jogo com base na velocidade dos dois pokemons
+        turn = 0
+    else:
+        turn = 1
+
     while running:
 
         #blit the background images
@@ -186,94 +191,107 @@ def draw_battle(player1, pokeName, pokeGender):
         screen.blit(pLevel, (735,310))
         screen.blit(pHp, (630,377))
 
+        if turn == 0:
     # defining cursor position:
-        cursor_position_shifted = positions[cursor] #from each button possition
-        cursor_position = (
-            cursor_position_shifted[0] + button_dim[0] // 10, # cursor position on X
-            cursor_position_shifted[1] + button_dim[1] // 2#cursor position on Y
-        )
+            cursor_position_shifted = positions[cursor] #from each button possition
+            cursor_position = (
+                cursor_position_shifted[0] + button_dim[0] // 10, # cursor position on X
+                cursor_position_shifted[1] + button_dim[1] // 2#cursor position on Y
+            )
 
-        # DRAW ALL BUTTONS
-        for button in buttons: 
-                draw_button(screen, button, bg_color, (255,255,255), font, False, True)
+            # DRAW ALL BUTTONS
+            for button in buttons: 
+                    draw_button(screen, button, bg_color, (255,255,255), font, False, True)
 
-        # Printing cursor:
-        sc = 16 #cursor size
-        xcc, ycc = cursor_position
-        x0c, y0c = xcc - sc // 2, ycc - sc // 2 # |‾
-        x1c, y1c = xcc + sc // 2, ycc + sc // 2 #    _|
-        pg.draw.polygon(
-            screen, (55, 55, 55),# cursor color
-            [(x0c, y0c), (x1c, (y0c + y1c) // 2), (x0c, y1c)]
-        )
+            # Printing cursor:
+            sc = 16 #cursor size
+            xcc, ycc = cursor_position
+            x0c, y0c = xcc - sc // 2, ycc - sc // 2 # |‾
+            x1c, y1c = xcc + sc // 2, ycc + sc // 2 #    _|
+            pg.draw.polygon(
+                screen, (55, 55, 55),# cursor color
+                [(x0c, y0c), (x1c, (y0c + y1c) // 2), (x0c, y1c)]
+            )
 
-        #cathing events
-        for ev in pg.event.get():
-            if ev.type == pg.QUIT:
-                running = False
-                pg.quit()
+            #cathing events
+            for ev in pg.event.get():
+                if ev.type == pg.QUIT:
+                    running = False
+                    pg.quit()
 
-            if ev.type == pg.KEYDOWN: #if a eky is pressed
+                if ev.type == pg.KEYDOWN: #if a eky is pressed
 
-                # Moving cursor:
-                if ev.key == pg.K_UP:
-                    cursor -= 1
-                elif ev.key == pg.K_DOWN:
-                    cursor += 1
-                elif ev.key == pg.K_LEFT:
-                    cursor -= 2
-                elif ev.key == pg.K_RIGHT:
-                    cursor += 2
+                    # Moving cursor:
+                    if ev.key == pg.K_UP:
+                        cursor -= 1
+                    elif ev.key == pg.K_DOWN:
+                        cursor += 1
+                    elif ev.key == pg.K_LEFT:
+                        cursor -= 2
+                    elif ev.key == pg.K_RIGHT:
+                        cursor += 2
 
-                #Verifyng cursor limits:
-                if cursor >= len(positions):
-                    cursor -= len(positions)
-                elif cursor < 0:
-                    cursor += len(positions)
-                
-                #choose action
-                if ev.key == pg.K_RETURN:
-                    for button in buttons:
-                        if cursor_position in button:
-                            
-                            choosed_action = button.label
-
-                            if choosed_action == "POKEMON":
-                                return("MENU") #return menu to choose other pokemon
-
-                            elif choosed_action == "RUN": #if run choose other enemy
-                                return 'RUN'
-
-                            elif choosed_action == "FIGHT":
-                                #display the attck options and animate the batlte
-                                damage, used_move = draw_moves('player1', pokeName, player1, player1IMG, player2, player2IMG, text_bars, screen, pInfo, eInfo)
-                                #lower the enemy hp
-                                player2.currentHp -= damage
-                                #redraw the new enemy hp bar
-                                player2_life_bar[0], player2_life_bar[1] = lower_life(screen, player2.hpPercent, player2_life_bar, life_bar_percent)
-                                #lower the player move pp
-                                used_move.currentPP -= 1
-
-                                #in case the player1 or player2 is dead - WIN or LOSE
-                                if player2.isFainted(): return('WIN'); pygame.quit() ; running = False
-                                if player1.isFainted(): return('LOSE') ; pygame.quit() ; running = False
+                    #Verifyng cursor limits:
+                    if cursor >= len(positions):
+                        cursor -= len(positions)
+                    elif cursor < 0:
+                        cursor += len(positions)
+                    
+                    #choose action
+                    if ev.key == pg.K_RETURN:
+                        for button in buttons:
+                            if cursor_position in button:
                                 
-                                #take an random move for the enemy and animate the batlte
-                                damage, used_move = draw_moves('player2', pokeName, player1, player1IMG, player2, player2IMG, text_bars, screen, pInfo, eInfo)
-                                #lower the player hp
-                                player1.currentHp -= damage
-                                #set the new pp text
-                                pHp = med_font.render(f'{int(player1.currentHp)}/{maxHp}',True, (55,55,55))
-                                #lower the enemy move pp
-                                used_move.currentPP -= 1
-                                #redraw the new player hp bar
-                                player1_life_bar[0], player1_life_bar[1] = lower_life(screen, player1.hpPercent, player1_life_bar, life_bar_percent)
+                                choosed_action = button.label
 
-                                #in case the player1 or player2 is dead - WIN or LOSE
-                                if player2.isFainted(): return('WIN'); pygame.quit() ; running = False
-                                if player1.isFainted(): return('LOSE') ; pygame.quit() ; running = False
+                                if choosed_action == "POKEMON":
+                                    return("MENU") #return menu to choose other pokemon
 
-                            running_menu = False
-                            break
+                                elif choosed_action == "RUN": #if run choose other enemy
+                                    if randint(0, 100) >= 50:
+                                        return 'RUN'
+                                    else:
+                                        turn = 1
+                                        cantRun = big_font.render("Can't escape!",True, (255,255,255))
+                                        screen.blit( text_bar, (0,450) )
+                                        screen.blit(cantRun, (40,480))
+                                        pg.display.flip()
+                                        sleep(1)
+
+                                elif choosed_action == "FIGHT":
+                                    #display the attck options and animate the batlte
+                                    damage, used_move = draw_moves('player1', pokeName, player1, player1IMG, player2, player2IMG, text_bars, screen, pInfo, eInfo)
+                                    #lower the enemy hp
+                                    player2.currentHp -= damage
+                                    #redraw the new enemy hp bar
+                                    player2_life_bar[0], player2_life_bar[1] = lower_life(screen, player2.hpPercent, player2_life_bar, life_bar_percent)
+                                    #lower the player move pp
+                                    used_move.currentPP -= 1
+                                    turn = 1
+
+                                    #in case the player1 or player2 is dead - WIN or LOSE
+                                    if player2.isFainted(): return('WIN'); pygame.quit() ; running = False
+                                    if player1.isFainted(): return('LOSE') ; pygame.quit() ; running = False
+                                    running_menu = False
+                                    break
+                                
+        else:
+            pg.display.flip()
+            #take an random move for the enemy and animate the batlte
+            damage, used_move = draw_moves('player2', pokeName, player1, player1IMG, player2, player2IMG, text_bars, screen, pInfo, eInfo)
+            #lower the player hp
+            player1.currentHp -= damage
+            #set the new pp text
+            pHp = med_font.render(f'{int(player1.currentHp)}/{maxHp}',True, (55,55,55))
+            #lower the enemy move pp
+            used_move.currentPP -= 1
+            #redraw the new player hp bar
+            player1_life_bar[0], player1_life_bar[1] = lower_life(screen, player1.hpPercent, player1_life_bar, life_bar_percent)
+            turn = 0
+
+            #in case the player1 or player2 is dead - WIN or LOSE
+            if player2.isFainted(): return('WIN'); pygame.quit() ; running = False
+            if player1.isFainted(): return('LOSE') ; pygame.quit() ; running = False
+
 
         pg.display.flip()

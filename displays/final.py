@@ -107,7 +107,7 @@ def draw_run():
     big_font = pg.font.Font('displays/font.ttf', height // 20)
     screen.fill(bg_color)
 
-    run = big_font.render(f'You runned!',True, (255,255,255))
+    run = big_font.render(f'You escaped!',True, (255,255,255))
     screen.blit(run, (280,200))
 
     where = big_font.render(f'???',True, (255,255,255))

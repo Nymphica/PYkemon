@@ -28,7 +28,7 @@ def main():
 
         elif display == "NAMEIT":
             display, pokeName, pokeGender = draw_nameIt(choosed_pokemon)
-            if pokeName.lower() == 'introcomp':
+            if pokeName.lower() == 'introcomp' or pokeName.lower() == 'intro':
                 choosed_pokemon = introbot
             
         elif display == "BATTLE":
